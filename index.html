@@ -1323,8 +1323,11 @@ async function doLogin(){
   const btn=document.querySelector('#form-login .auth-btn');
   if(btn){btn.disabled=true;btn.textContent='登录中...';}
   try{
-    await auth.signInWithEmailAndPassword(email,pwd);
-    // onAuthStateChanged will handle goApp()
+    const cred=await auth.signInWithEmailAndPassword(email,pwd);
+    const u=cred.user;
+    currentUser={email:u.email, name:u.displayName||u.email.split('@')[0]};
+    showPage('app');
+    initApp();
   }catch(e){
     const msg=e.code==='auth/user-not-found'?'找不到此账号，请先注册'
              :e.code==='auth/wrong-password'||e.code==='auth/invalid-credential'?'密码错误，请重试'
@@ -1350,10 +1353,13 @@ async function doRegister(){
     const isAdmin=(email===ADMIN_EMAIL);
     const cred=await auth.createUserWithEmailAndPassword(email,pwd);
     await cred.user.updateProfile({displayName:name});
-    // Save extra profile (industry, isAdmin) to Firestore
     const uid=cred.user.uid;
-    await db.collection('profiles').doc(uid).set({name,email,industry,isAdmin,created:Date.now()});
-    // onAuthStateChanged will handle goApp()
+    // Save profile (don't await - do it in background)
+    db.collection('profiles').doc(uid).set({name,email,industry,isAdmin,created:Date.now()}).catch(()=>{});
+    // Go to app immediately
+    currentUser={email,name,industry,isAdmin};
+    showPage('app');
+    initApp();
   }catch(e){
     const msg=e.code==='auth/email-already-in-use'?'此邮箱已注册，请直接登录'
              :e.code==='auth/weak-password'?'密码至少 6 位'
