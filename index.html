@@ -865,6 +865,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script>
 /* ── FIREBASE ── */
 firebase.initializeApp({
@@ -876,6 +877,7 @@ firebase.initializeApp({
   appId:"1:846108564409:web:df03212c9b0914ea37f468"
 });
 const db = firebase.firestore();
+const auth = firebase.auth();
 let currentUser = null;
 
 /* ── ADMIN CONFIG ── */
@@ -994,27 +996,27 @@ function switchAuthTab(tab){
   document.getElementById('form-register').style.display=tab==='register'?'block':'none';
   document.querySelectorAll('.auth-tab').forEach((b,i)=>b.classList.toggle('active',(i===0&&tab==='login')||(i===1&&tab==='register')));
 }
-function doLogin(){
+async function doLogin(){
   const email=document.getElementById('login-email').value.trim();
   const pwd=document.getElementById('login-pwd').value;
   const errEl=document.getElementById('login-error');
   errEl.style.display='none';
   if(!email){errEl.textContent='请输入邮箱';errEl.style.display='block';return;}
   if(!pwd){errEl.textContent='请输入密码';errEl.style.display='block';return;}
-
-  // Seed admin account if not exists
-  const users=JSON.parse(localStorage.getItem('xhs_users')||'{}');
-  if(!users[ADMIN_EMAIL]){
-    users[ADMIN_EMAIL]={name:'Admin',pwd:ADMIN_PWD,industry:'recruit',isAdmin:true,created:Date.now()};
-    localStorage.setItem('xhs_users',JSON.stringify(users));
+  const btn=document.querySelector('#form-login .auth-btn');
+  if(btn){btn.disabled=true;btn.textContent='登录中...';}
+  try{
+    await auth.signInWithEmailAndPassword(email,pwd);
+    // onAuthStateChanged will handle goApp()
+  }catch(e){
+    const msg=e.code==='auth/user-not-found'?'找不到此账号，请先注册'
+             :e.code==='auth/wrong-password'||e.code==='auth/invalid-credential'?'密码错误，请重试'
+             :'登录失败：'+e.message;
+    errEl.textContent=msg; errEl.style.display='block';
+    if(btn){btn.disabled=false;btn.textContent='登录';}
   }
-  if(!users[email]){errEl.textContent='找不到此账号，请先注册';errEl.style.display='block';return;}
-  if(users[email].pwd!==btoa(pwd)){errEl.textContent='密码错误，请重试';errEl.style.display='block';return;}
-  const u=users[email];
-  currentUser={email,name:u.name,industry:u.industry||'recruit',isAdmin:!!u.isAdmin};
-  goApp();
 }
-function doRegister(){
+async function doRegister(){
   const name=document.getElementById('reg-name').value.trim();
   const email=document.getElementById('reg-email').value.trim();
   const pwd=document.getElementById('reg-pwd').value;
@@ -1025,25 +1027,48 @@ function doRegister(){
   if(!email||!email.includes('@')){errEl.textContent='请输入有效的邮箱';errEl.style.display='block';return;}
   if(!pwd||pwd.length<6){errEl.textContent='密码至少 6 位';errEl.style.display='block';return;}
   if(!industry){errEl.textContent='请选择你的行业';errEl.style.display='block';return;}
-  const users=JSON.parse(localStorage.getItem('xhs_users')||'{}');
-  if(users[email]){errEl.textContent='此邮箱已注册，请直接登录';errEl.style.display='block';return;}
-  const isAdmin=(email===ADMIN_EMAIL && btoa(pwd)===ADMIN_PWD);
-  users[email]={name,pwd:btoa(pwd),industry,isAdmin,created:Date.now()};
-  localStorage.setItem('xhs_users',JSON.stringify(users));
-  currentUser={email,name,industry,isAdmin};
-  goApp();
+  const btn=document.querySelector('#form-register .auth-btn');
+  if(btn){btn.disabled=true;btn.textContent='创建中...';}
+  try{
+    const isAdmin=(email===ADMIN_EMAIL);
+    const cred=await auth.createUserWithEmailAndPassword(email,pwd);
+    await cred.user.updateProfile({displayName:name});
+    // Save extra profile (industry, isAdmin) to Firestore
+    const uid=cred.user.uid;
+    await db.collection('profiles').doc(uid).set({name,email,industry,isAdmin,created:Date.now()});
+    // onAuthStateChanged will handle goApp()
+  }catch(e){
+    const msg=e.code==='auth/email-already-in-use'?'此邮箱已注册，请直接登录'
+             :e.code==='auth/weak-password'?'密码至少 6 位'
+             :'注册失败：'+e.message;
+    errEl.textContent=msg; errEl.style.display='block';
+    if(btn){btn.disabled=false;btn.textContent='创建账号 →';}
+  }
 }
 function doLogout(){
-  currentUser=null;
-  showPage('land');
+  auth.signOut().then(()=>{
+    currentUser=null;
+    showPage('land');
+  });
 }
 
 /* ── APP INIT ── */
 let userData={};
 let doneSet=new Set(JSON.parse(localStorage.getItem('xhs_done')||'[]'));
 
-function initApp(){
-  const name=currentUser?.name||currentUser?.email?.split('@')[0]||'创作者';
+async function initApp(){
+  // Load profile from Firestore (has industry, isAdmin etc)
+  const uid = auth.currentUser?.uid;
+  if(uid){
+    try{
+      const doc = await db.collection('profiles').doc(uid).get();
+      if(doc.exists){
+        const p = doc.data();
+        currentUser = {...currentUser, name:p.name||currentUser.name, industry:p.industry||'recruit', isAdmin:!!p.isAdmin};
+      }
+    }catch(e){console.log('Profile load error:',e);}
+  }
+  const name=currentUser?.name||auth.currentUser?.displayName||currentUser?.email?.split('@')[0]||'创作者';
   const av=name.charAt(0).toUpperCase();
   const el=id=>document.getElementById(id);
   if(el('user-name'))el('user-name').textContent=name;
@@ -1059,6 +1084,17 @@ function initApp(){
   updateProgress();
   loadUserData();
 
+  // Seed admin profile in Firestore if needed
+  if(currentUser.email===ADMIN_EMAIL){
+    currentUser.isAdmin=true;
+    const uid=auth.currentUser?.uid;
+    if(uid){
+      try{
+        const d=await db.collection('profiles').doc(uid).get();
+        if(!d.exists) await db.collection('profiles').doc(uid).set({name:'Admin',email:ADMIN_EMAIL,industry:'recruit',isAdmin:true,created:Date.now()});
+      }catch(e){}
+    }
+  }
   // Show admin nav if admin
   const adminNav = document.getElementById('admin-nav-item');
   if(adminNav) adminNav.style.display = currentUser.isAdmin ? 'flex' : 'none';
@@ -1111,14 +1147,18 @@ function selectIndustry(key){
   renderProfileView();
 }
 
-function saveIndustry(){
-  const users = JSON.parse(localStorage.getItem('xhs_users')||'{}');
-  if(users[currentUser.email]){
-    users[currentUser.email].industry = currentUser.industry;
-    localStorage.setItem('xhs_users', JSON.stringify(users));
+async function saveIndustry(){
+  const uid=auth.currentUser?.uid;
+  if(uid){
+    try{
+      await db.collection('profiles').doc(uid).set({industry:currentUser.industry},{merge:true});
+      renderIndustryBadgeSidebar();
+      toast('✓ 行业已更新 Industry updated');
+    }catch(e){toast('保存失败：'+e.message);}
+  } else {
+    renderIndustryBadgeSidebar();
+    toast('✓ 行业已更新');
   }
-  renderIndustryBadgeSidebar();
-  toast('✓ 行业已更新 Industry updated');
 }
 
 function renderSmartSuggestions(){
@@ -1143,33 +1183,39 @@ function renderSmartSuggestions(){
       </div>`).join('')}`;
 }
 
-function loadAllUsers(){
+async function loadAllUsers(){
   const el = document.getElementById('admin-user-list'); if(!el) return;
-  const users = JSON.parse(localStorage.getItem('xhs_users')||'{}');
-  const emails = Object.keys(users).filter(e=>e!==ADMIN_EMAIL);
-  if(!emails.length){ el.innerHTML='<div style="font-size:13px;color:var(--t4)">暂时没有用户注册</div>'; return; }
-  el.innerHTML = emails.map(email=>{
-    const u=users[email];
-    const ind=INDUSTRIES[u.industry]||INDUSTRIES.recruit;
-    return `
-    <div style="display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--bg3)">
-      <div style="width:40px;height:40px;border-radius:12px;background:var(--xhs-l);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--xhs)">${(u.name||'U').charAt(0).toUpperCase()}</div>
-      <div>
-        <div style="font-size:14px;font-weight:600;color:var(--t1)">${u.name||'—'}</div>
-        <div style="font-size:12px;color:var(--t3)">${email}</div>
-        <span style="display:inline-block;margin-top:4px;font-size:11px;padding:2px 8px;border-radius:10px;background:${ind.color}22;color:${ind.color};font-weight:600">${ind.label}</span>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:11px;color:var(--t4);font-family:'DM Mono',monospace">注册于</div>
-        <div style="font-size:12px;color:var(--t2)">${new Date(u.created).toLocaleDateString('zh-CN')}</div>
-      </div>
-    </div>`;
-  }).join('');
+  el.innerHTML='<div style="font-size:13px;color:var(--t4)">加载中...</div>';
+  try{
+    const snap = await db.collection('profiles').get();
+    const users = snap.docs.filter(d=>d.data().email!==ADMIN_EMAIL);
+    if(!users.length){ el.innerHTML='<div style="font-size:13px;color:var(--t4)">暂时没有用户注册</div>'; return; }
+    el.innerHTML = users.map(d=>{
+      const u=d.data();
+      const ind=INDUSTRIES[u.industry]||INDUSTRIES.recruit;
+      const createdDate=u.created?new Date(u.created).toLocaleDateString('zh-CN'):'—';
+      return `
+      <div style="display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--bg3)">
+        <div style="width:40px;height:40px;border-radius:12px;background:var(--xhs-l);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--xhs)">${(u.name||'U').charAt(0).toUpperCase()}</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--t1)">${u.name||'—'}</div>
+          <div style="font-size:12px;color:var(--t3)">${u.email||'—'}</div>
+          <span style="display:inline-block;margin-top:4px;font-size:11px;padding:2px 8px;border-radius:10px;background:${ind.color}22;color:${ind.color};font-weight:600">${ind.label}</span>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--t4);font-family:'DM Mono',monospace">注册于</div>
+          <div style="font-size:12px;color:var(--t2)">${createdDate}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    el.innerHTML='<div style="font-size:13px;color:var(--xhs)">加载失败：'+e.message+'</div>';
+  }
 }
 
 /* ── FIREBASE DATA ── */
 function getUserId(){
-  return currentUser?.email ? btoa(currentUser.email).replace(/[^a-zA-Z0-9]/g,'').slice(0,20) : 'demo';
+  return auth.currentUser?.uid || 'demo';
 }
 function loadUserData(){
   setSyncStatus('loading','连接中');
@@ -1475,6 +1521,26 @@ function setPeriod(days, btn){
   btn.style.background='var(--xhs-l)';
   btn.style.color='var(--xhs)';
 }
+
+/* ── FIREBASE AUTH STATE — handles refresh & persist ── */
+// Show landing by default, Firebase will redirect if logged in
+let _authDone = false;
+const _authFallback = setTimeout(()=>{
+  if(!_authDone){ _authDone=true; showPage('land'); }
+},5000);
+
+auth.onAuthStateChanged(async user=>{
+  if(_authDone) return;
+  _authDone=true;
+  clearTimeout(_authFallback);
+  if(user){
+    currentUser={email:user.email, name:user.displayName||user.email.split('@')[0]};
+    showPage('app');
+    await initApp();
+  } else {
+    showPage('land');
+  }
+},()=>{ clearTimeout(_authFallback); if(!_authDone){_authDone=true;showPage('land');} });
 
 /* ── INIT DATE ── */
 const now = new Date();
