@@ -225,7 +225,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 /* OVERALL SCORE */
 .overall-score{background:linear-gradient(135deg,var(--xhs) 0%,#CC1A32 100%);border-radius:var(--r2);padding:28px;margin-bottom:20px;color:#fff;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(255,36,66,.3);gap:16px;overflow:hidden;flex-wrap:nowrap}
 .overall-left h3{font-size:15px;font-weight:500;opacity:.8;margin-bottom:4px}
-.overall-left .big-score{font-size:64px;font-weight:700;line-height:1;letter-spacing:-.04em;white-space:nowrap}
+.overall-left .big-score{font-size:64px;font-weight:700;line-height:1;letter-spacing:-.04em;white-space:nowrap;overflow:hidden}
 .overall-left .score-label{font-size:14px;opacity:.7;margin-top:4px}
 .overall-ring{position:relative;width:120px;height:120px;flex-shrink:0}
 .overall-ring svg{transform:rotate(-90deg);width:120px;height:120px}
@@ -353,13 +353,51 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 @media(max-width:1024px){
   .auth-page{grid-template-columns:1fr}
   .auth-left{display:none}
-  .app-shell{grid-template-columns:1fr}
   .sidebar{display:none}
-  .main{margin-left:0}
+  .main{margin-left:0;width:100%}
   .circles-row{grid-template-columns:repeat(3,1fr)}
   .quick-stats{grid-template-columns:1fr 1fr}
   .features-grid{grid-template-columns:1fr 1fr}
   .pricing-grid{grid-template-columns:1fr}
+}
+/* ── MOBILE BOTTOM NAV ── */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--bg3);z-index:200;padding:8px 0 8px}
+.mobile-nav-inner{display:flex;justify-content:space-around;align-items:center}
+.mob-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 12px;border:none;background:none;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--t4);transition:color .15s;min-width:56px}
+.mob-nav-btn.active{color:var(--xhs)}
+.mob-nav-icon{font-size:20px}
+.mob-nav-label{font-size:10px;font-weight:600;letter-spacing:.02em}
+@media(max-width:768px){
+  .app-shell{display:block}
+  .sidebar{display:none!important}
+  .main{margin-left:0!important;width:100%!important;padding-bottom:80px}
+  .mobile-nav{display:flex!important}
+  .main-header{padding:0 16px}
+  .main-body{padding:16px}
+  .circles-row{grid-template-columns:1fr 1fr}
+  .quick-stats{grid-template-columns:1fr 1fr}
+  .overall-score{flex-direction:column;align-items:flex-start;gap:12px}
+  .overall-ring{display:none}
+  .overall-tips{max-width:100%}
+  .overall-left .big-score{font-size:48px}
+  .dp-grid{grid-template-columns:1fr}
+  .dp-sec:nth-child(odd){border-right:none}
+  .sections{grid-template-columns:1fr}
+  .modal-grid{grid-template-columns:1fr}
+  .input-grid{grid-template-columns:1fr}
+  .insights-grid{grid-template-columns:1fr}
+  .mac-grid{grid-template-columns:1fr 1fr}
+  .cal-body{gap:3px;padding:8px}
+  .cc{min-height:64px;padding:6px}
+  .cc-title{display:none}
+  .hero{padding:90px 20px 50px}
+  .nav{padding:0 16px}
+  .features,.pricing{padding:50px 16px}
+  .features-grid,.pricing-grid{grid-template-columns:1fr}
+  .hero h1{font-size:32px}
+  .pricing-grid{max-width:100%;margin-left:0;margin-right:0}
+  .modal{padding:20px;margin:12px;max-height:90vh;overflow-y:auto}
+  #industry-selector{grid-template-columns:1fr!important}
 }
 @media(max-width:640px){
   .hero{padding:100px 20px 60px}
@@ -368,7 +406,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
   .features-grid{grid-template-columns:1fr}
   .circles-row{grid-template-columns:1fr 1fr}
   .quick-stats{grid-template-columns:1fr 1fr}
-  .main-body{padding:20px}
+  .main-body{padding:16px}
   .cal-body{gap:4px;padding:10px}
   .cc{min-height:72px;padding:7px}
   .modal{padding:24px;margin:16px}
@@ -668,8 +706,8 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
         <!-- ── DASHBOARD VIEW ── -->
         <div id="view-dashboard" class="view active">
           <div class="dash-greeting">
-            <h2 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">你好，<span id="greet-name">Jeffer</span> 👋</h2>
-            <p id="greet-date" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">今天是 — 你的小红书在持续增长中</p>
+            <h2 style="font-size:clamp(18px,5vw,24px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">你好，<span id="greet-name">Jeffer</span> 👋</h2>
+            <p id="greet-date" style="font-size:clamp(12px,3.5vw,15px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--t3)">今天是 — 你的小红书在持续增长中</p>
           </div>
 
           <!-- OVERALL SCORE -->
@@ -828,6 +866,32 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
       </div><!-- /main-body -->
     </main>
   </div><!-- /app-shell -->
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-inner">
+      <button class="mob-nav-btn active" onclick="switchViewMob('dashboard',this)" id="mob-dashboard">
+        <span class="mob-nav-icon">📊</span>
+        <span class="mob-nav-label">Dashboard</span>
+      </button>
+      <button class="mob-nav-btn" onclick="switchViewMob('calendar',this)" id="mob-calendar">
+        <span class="mob-nav-icon">📅</span>
+        <span class="mob-nav-label">日历</span>
+      </button>
+      <button class="mob-nav-btn" onclick="switchViewMob('data',this)" id="mob-data">
+        <span class="mob-nav-icon">📝</span>
+        <span class="mob-nav-label">数据</span>
+      </button>
+      <button class="mob-nav-btn" onclick="switchViewMob('profile',this)" id="mob-profile">
+        <span class="mob-nav-icon">👤</span>
+        <span class="mob-nav-label">资料</span>
+      </button>
+      <button class="mob-nav-btn" onclick="mobileMore()" id="mob-more">
+        <span class="mob-nav-icon">⋯</span>
+        <span class="mob-nav-label">更多</span>
+      </button>
+    </div>
+  </nav>
+
 </div><!-- /page-app -->
 
 <!-- DATA MODAL -->
@@ -1507,6 +1571,39 @@ function copyId(id,btn){
 
 /* ── MISC ── */
 function comingSoon(){toast('🚀 即将推出 — 敬请期待！');}
+
+function switchViewMob(name, btn){
+  // Update bottom nav active state
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  // Also trigger desktop switchView (passing null for btn to avoid sidebar issues)
+  switchView(name, null);
+  // Update main-header title
+  const t=document.getElementById('view-title');
+  const titles={dashboard:'Dashboard',calendar:'内容日历',data:'数据录入',profile:'我的资料',admin:'Admin'};
+  if(t) t.textContent=titles[name]||name;
+}
+
+function mobileMore(){
+  // Show a simple more menu
+  const menu=document.getElementById('mob-more-menu');
+  if(menu){ menu.remove(); return; }
+  const m=document.createElement('div');
+  m.id='mob-more-menu';
+  m.style.cssText='position:fixed;bottom:70px;right:12px;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);padding:8px;z-index:300;min-width:180px';
+  const items=[
+    {icon:'✍️',label:'AI 文案生成',fn:'comingSoon()'},
+    {icon:'🎓',label:'Academy',fn:'comingSoon()'},
+    {icon:'👥',label:'团队管理',fn:'comingSoon()'},
+  ];
+  if(currentUser?.isAdmin) items.push({icon:'🔐',label:'Admin 控制台',fn:"switchViewMob('admin',null);document.getElementById('mob-more-menu')?.remove()"});
+  m.innerHTML=items.map(i=>`<div onclick="${i.fn};document.getElementById('mob-more-menu')?.remove()" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:var(--t1)" onmouseover="this.style.background='var(--bg1)'" onmouseout="this.style.background='none'"><span style="font-size:18px">${i.icon}</span>${i.label}</div>`).join('')
+  +'<div style="border-top:1px solid var(--bg3);margin:6px 0"></div>'
+  +`<div onclick="doLogout();document.getElementById('mob-more-menu')?.remove()" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:var(--xhs)"><span style="font-size:18px">🚪</span>退出登录</div>`;
+  document.body.appendChild(m);
+  // Close on outside click
+  setTimeout(()=>document.addEventListener('click',function h(e){if(!m.contains(e.target)){m.remove();document.removeEventListener('click',h);}},),100);
+}
 
 function setPeriod(days, btn){
   document.getElementById('m-period').value = days;
