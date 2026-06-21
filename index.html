@@ -415,6 +415,8 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
   .dp-sec:nth-child(odd){border-right:none}
 }
 </style>
+  <link rel="icon" type="image/png" href="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png">
+  <link rel="apple-touch-icon" href="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png">
 </head>
 <body>
 
@@ -424,8 +426,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 <div id="page-land" class="page active land">
   <nav class="nav">
     <div class="nav-logo">
-      <div class="nav-logo-mark">X</div>
-      <span class="nav-logo-text" style="color:var(--xhs)">RedNote<span style="color:var(--t1)">.ai</span></span>
+      <img src="https://jfleezfsvoai.github.io/rednoteai/rednotelong.png" alt="RedNote.ai" style="height:32px;object-fit:contain">
     </div>
     <div class="nav-links">
       <a class="nav-link" onclick="scrollToSection('#features')">功能</a>
@@ -440,7 +441,10 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge"><span class="hero-badge-dot"></span> 小红书创作者的 AI 内容系统</div>
+    <div class="hero-badge" style="gap:8px">
+  <img src="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png" alt="R" style="width:18px;height:18px;object-fit:contain;border-radius:4px">
+  <span>小红书创作者的 AI 内容系统</span>
+</div>
     <h1>AI 驱动的<br><span>小红书内容系统</span></h1>
     <p class="hero-sub">AI 生成文案 · 智能内容日历 · 账号健康分析 · 一个平台管理你的整个创作生意</p>
     <div class="hero-cta">
@@ -460,7 +464,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
         <div class="mockup-dot" style="background:#FF5F57"></div>
         <div class="mockup-dot" style="background:#FFBD2E;margin-left:6px"></div>
         <div class="mockup-dot" style="background:#28CA41;margin-left:6px"></div>
-        <div class="mockup-url">rednote.ai/dashboard</div>
+        <div class="mockup-url" style="gap:6px;display:flex;align-items:center"><img src="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png" style="width:14px;height:14px;object-fit:contain;border-radius:3px"> rednote.ai/dashboard</div>
       </div>
       <div class="mockup-body">
         <div class="mockup-sidebar">
@@ -583,7 +587,9 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 
   <!-- FOOTER -->
   <footer class="land-footer">
-    <div class="land-footer-logo">RedNote.ai</div>
+    <div class="land-footer-logo" style="display:flex;align-items:center;justify-content:center;gap:10px">
+  <img src="https://jfleezfsvoai.github.io/rednoteai/rednotelong.png" alt="RedNote.ai" style="height:28px;object-fit:contain;filter:brightness(0) invert(1)">
+</div>
     <div class="land-footer-sub">专为小红书创作者和 AI 电商创业者打造</div>
     <div class="land-footer-bottom">© 2025 RedNote.ai · Powered by SVO.ai</div>
   </footer>
@@ -596,7 +602,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
   <div class="auth-page">
     <div class="auth-left">
       <div class="auth-brand">
-        <div class="auth-brand-mark">X</div>
+        <div class="auth-brand-mark" style="background:none;padding:0"><img src="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png" alt="R" style="width:44px;height:44px;object-fit:contain;border-radius:12px"></div>
         <h2>你的小红书增长，从这里开始</h2>
         <p>AI 内容日历 · 账号健康分析 · 文案自动生成<br>让你的小红书账号系统化增长</p>
       </div>
@@ -859,21 +865,118 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
           </div>
         </div>
 
-        <!-- ── ADMIN VIEW ── -->
+        <!-- ═══ SECTION: ADMIN CONSOLE ═══ -->
         <div id="view-admin" class="view">
-          <div style="background:linear-gradient(135deg,#1C1C1E,#3A3A3C);border-radius:var(--r2);padding:24px 28px;margin-bottom:16px;color:#fff">
-            <div style="font-size:11px;font-family:'DM Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px">Admin Console · rednoteadmin</div>
-            <div style="font-size:20px;font-weight:700">🔐 管理员控制台</div>
-            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:4px">管理所有用户 · 实时数据监控 · 1对1 支持</div>
-          </div>
-          <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-              <div style="font-size:15px;font-weight:700">所有用户 All Users</div>
-              <button class="save-btn" onclick="loadAllUsers()" style="padding:8px 16px;font-size:13px">刷新 Refresh</button>
+
+          <!-- Admin Header -->
+          <div style="background:linear-gradient(135deg,#1C1C1E,#3A3A3C);border-radius:var(--r2);padding:24px 28px;margin-bottom:16px;color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <img src="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png" alt="R" style="width:24px;height:24px;object-fit:contain;border-radius:6px;filter:brightness(0) invert(1)">
+              <span style="font-size:11px;font-family:'DM Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4)">RedNote.ai · Admin Console</span>
             </div>
-            <div id="admin-user-list"><div style="font-size:13px;color:var(--t4)">点击刷新加载...</div></div>
+              <div style="font-size:20px;font-weight:700">🔐 管理员控制台</div>
+              <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:4px">用户管理 · 蓝勾审批 · Staff 分配 · 实时监控</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button onclick="showAdminTab('users')" id="atab-users" style="padding:9px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">👥 用户</button>
+              <button onclick="showAdminTab('create')" id="atab-create" style="padding:9px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.6);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">➕ 创建账号</button>
+              <button onclick="showAdminTab('staff')" id="atab-staff" style="padding:9px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.6);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">🧑‍💼 Staff</button>
+            </div>
           </div>
-        </div>
+
+          <!-- Admin Tab: Users -->
+          <div id="admin-tab-users">
+            <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+                <div style="font-size:15px;font-weight:700">所有用户 All Users</div>
+                <div style="display:flex;gap:8px">
+                  <input id="admin-search" oninput="filterUsers()" placeholder="搜索用户..." style="padding:8px 12px;border:1.5px solid var(--bg3);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--t1);background:var(--bg1);width:180px">
+                  <button class="save-btn" onclick="loadAllUsers()" style="padding:8px 16px;font-size:13px">刷新</button>
+                </div>
+              </div>
+              <div id="admin-user-list"><div style="font-size:13px;color:var(--t4)">点击刷新加载...</div></div>
+            </div>
+          </div>
+
+          <!-- Admin Tab: Create Account -->
+          <div id="admin-tab-create" style="display:none">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+
+              <!-- Create Client -->
+              <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px">
+                <div style="font-size:15px;font-weight:700;margin-bottom:4px">👤 创建 Client 账号</div>
+                <div style="font-size:13px;color:var(--t3);margin-bottom:18px">为你的客户创建账号，账号归属于你</div>
+                <div class="inp2-group"><label class="inp2-label">客户名字 Name</label><input class="inp2" id="cc-name" placeholder="例：Sarah Lim"></div>
+                <div class="inp2-group"><label class="inp2-label">电子邮箱 Email</label><input class="inp2" type="email" id="cc-email" placeholder="sarah@email.com"></div>
+                <div class="inp2-group"><label class="inp2-label">初始密码 Password</label><input class="inp2" type="password" id="cc-pwd" placeholder="至少 6 位"></div>
+                <div class="inp2-group">
+                  <label class="inp2-label">行业 Industry</label>
+                  <select class="inp2" id="cc-industry" style="cursor:pointer">
+                    <option value="">选择行业</option>
+                    <option value="pet">🐾 宠物 Pet Food & Health</option>
+                    <option value="health">💊 健康保健品 Health Supplements</option>
+                    <option value="recruit">🤝 招募 / AI电商 Recruitment</option>
+                    <option value="realty">🏠 房地产 Real Estate</option>
+                    <option value="insurance">🛡️ 保险业 Insurance</option>
+                  </select>
+                </div>
+                <div class="inp2-group">
+                  <label class="inp2-label">✓ 蓝勾认证 Blue Tick</label>
+                  <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg1);border-radius:10px;border:1.5px solid var(--bg3)">
+                    <div onclick="toggleCreateBlue(this)" id="cc-blue-toggle" style="width:44px;height:24px;border-radius:12px;background:var(--bg3);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0">
+                      <div style="width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.2)"></div>
+                    </div>
+                    <div>
+                      <div style="font-size:13px;font-weight:500;color:var(--t1)">已认证蓝勾</div>
+                      <div style="font-size:11px;color:var(--t4)" id="cc-blue-label">未开启</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="inp2-group" id="cc-expiry-wrap" style="display:none">
+                  <label class="inp2-label">🗓️ 蓝勾到期日 Expiry Date</label>
+                  <input class="inp2" type="date" id="cc-expiry">
+                </div>
+                <button class="save-btn" onclick="createClientAccount()" style="width:100%">创建 Client 账号</button>
+              </div>
+
+              <!-- Create Staff -->
+              <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px">
+                <div style="font-size:15px;font-weight:700;margin-bottom:4px">🧑‍💼 创建 Staff 账号</div>
+                <div style="font-size:13px;color:var(--t3);margin-bottom:18px">Staff 可以查看和管理被分配的 Client 账号</div>
+                <div class="inp2-group"><label class="inp2-label">Staff 名字 Name</label><input class="inp2" id="cs-name" placeholder="例：Amy Wong"></div>
+                <div class="inp2-group"><label class="inp2-label">电子邮箱 Email</label><input class="inp2" type="email" id="cs-email" placeholder="amy@rednote.ai"></div>
+                <div class="inp2-group"><label class="inp2-label">初始密码 Password</label><input class="inp2" type="password" id="cs-pwd" placeholder="至少 6 位"></div>
+                <div style="background:#FFF8ED;border:1.5px solid #FFD9A0;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:#7A5000;line-height:1.6">
+                  ⚠️ Staff 权限说明：可查看 & 编辑分配的 Client，<strong>不可</strong>审批蓝勾，<strong>不可</strong>创建新账号
+                </div>
+                <button class="save-btn" onclick="createStaffAccount()" style="width:100%">创建 Staff 账号</button>
+
+                <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--bg3)">
+                  <div style="font-size:14px;font-weight:600;margin-bottom:12px">🔗 分配 Client 给 Staff</div>
+                  <div class="inp2-group">
+                    <label class="inp2-label">选择 Staff</label>
+                    <select class="inp2" id="assign-staff" style="cursor:pointer"><option value="">先选择 Staff</option></select>
+                  </div>
+                  <div class="inp2-group">
+                    <label class="inp2-label">选择 Client</label>
+                    <select class="inp2" id="assign-client" style="cursor:pointer"><option value="">先选择 Client</option></select>
+                  </div>
+                  <button class="save-btn" onclick="assignClientToStaff()" style="width:100%">确认分配</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Admin Tab: Staff Overview -->
+          <div id="admin-tab-staff" style="display:none">
+            <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px">
+              <div style="font-size:15px;font-weight:700;margin-bottom:16px">🧑‍💼 Staff 总览</div>
+              <div id="admin-staff-list"><div style="font-size:13px;color:var(--t4)">暂无 Staff 账号</div></div>
+            </div>
+          </div>
+
+        </div><!-- /view-admin -->
 
       </div><!-- /main-body -->
     </main>
@@ -1268,34 +1371,229 @@ function renderSmartSuggestions(){
       </div>`).join('')}`;
 }
 
+/* ═══ ADMIN FUNCTIONS ═══ */
+let allUsersCache = [];
+
 async function loadAllUsers(){
   const el = document.getElementById('admin-user-list'); if(!el) return;
   el.innerHTML='<div style="font-size:13px;color:var(--t4)">加载中...</div>';
   try{
     const snap = await db.collection('profiles').get();
-    const users = snap.docs.filter(d=>d.data().email!==ADMIN_EMAIL);
-    if(!users.length){ el.innerHTML='<div style="font-size:13px;color:var(--t4)">暂时没有用户注册</div>'; return; }
-    el.innerHTML = users.map(d=>{
-      const u=d.data();
-      const ind=INDUSTRIES[u.industry]||INDUSTRIES.recruit;
-      const createdDate=u.created?new Date(u.created).toLocaleDateString('zh-CN'):'—';
-      return `
-      <div style="display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--bg3)">
-        <div style="width:40px;height:40px;border-radius:12px;background:var(--xhs-l);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--xhs)">${(u.name||'U').charAt(0).toUpperCase()}</div>
-        <div>
-          <div style="font-size:14px;font-weight:600;color:var(--t1)">${u.name||'—'}</div>
-          <div style="font-size:12px;color:var(--t3)">${u.email||'—'}</div>
-          <span style="display:inline-block;margin-top:4px;font-size:11px;padding:2px 8px;border-radius:10px;background:${ind.color}22;color:${ind.color};font-weight:600">${ind.label}</span>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:11px;color:var(--t4);font-family:'DM Mono',monospace">注册于</div>
-          <div style="font-size:12px;color:var(--t2)">${createdDate}</div>
-        </div>
-      </div>`;
-    }).join('');
+    allUsersCache = snap.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.email!==ADMIN_EMAIL);
+    renderUserList(allUsersCache);
+    populateAssignSelects();
+    loadStaffList();
   }catch(e){
     el.innerHTML='<div style="font-size:13px;color:var(--xhs)">加载失败：'+e.message+'</div>';
   }
+}
+
+function renderUserList(users){
+  const el=document.getElementById('admin-user-list'); if(!el)return;
+  if(!users.length){el.innerHTML='<div style="font-size:13px;color:var(--t4)">暂时没有用户注册</div>';return;}
+  el.innerHTML=users.map(u=>{
+    const ind=INDUSTRIES[u.industry]||INDUSTRIES.recruit;
+    const isBlue=u.blueVerified||false;
+    const isStaff=u.role==='staff';
+    const expiry=u.blueExpiry?new Date(u.blueExpiry):null;
+    const daysLeft=expiry?Math.ceil((expiry-new Date())/(1000*60*60*24)):null;
+    const expiryHtml=isBlue&&expiry?`<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:${daysLeft>30?'#EDFAF3':daysLeft>7?'#FFF8ED':'var(--xhs-l)'};color:${daysLeft>30?'var(--green)':daysLeft>7?'var(--amber)':'var(--xhs)'};font-weight:600;margin-left:4px">蓝勾到期 ${daysLeft}天</span>`:'';
+    return `
+    <div style="display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:16px 0;border-bottom:1px solid var(--bg3)" id="urow-${u.id}">
+      <div style="width:42px;height:42px;border-radius:12px;background:${isStaff?'#EFF6FF':isBlue?'#EFF6FF':'var(--xhs-l)'};display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:${isStaff?'var(--blue)':'var(--xhs)'}">${(u.name||'U').charAt(0).toUpperCase()}</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span style="font-size:14px;font-weight:600;color:var(--t1)">${u.name||'—'}</span>
+          ${isStaff?'<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:#EFF6FF;color:var(--blue);font-weight:700">STAFF</span>':''}
+          ${isBlue?'<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:#EFF6FF;color:#007AFF;font-weight:700">✓ 蓝勾</span>':''}
+          ${expiryHtml}
+        </div>
+        <div style="font-size:12px;color:var(--t3);margin-top:2px">${u.email||'—'}</div>
+        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+          <span style="font-size:11px;padding:2px 8px;border-radius:8px;background:${ind.color}15;color:${ind.color};font-weight:600">${ind.label}</span>
+          ${u.assignedTo?`<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:var(--bg2);color:var(--t3)">Staff: ${u.assignedTo}</span>`:''}
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+        ${!isStaff?`<button onclick="openBlueModal('${u.id}','${u.name}',${isBlue},'${u.blueExpiry||''}')" style="font-size:11px;padding:5px 10px;border-radius:8px;border:1.5px solid ${isBlue?'var(--blue)':'var(--bg3)'};background:${isBlue?'#EFF6FF':'var(--bg1)'};color:${isBlue?'var(--blue)':'var(--t2)'};cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap">✓ 蓝勾管理</button>`:''}
+        <div style="font-size:10px;color:var(--t4);font-family:'DM Mono',monospace;text-align:right">${u.created?new Date(u.created).toLocaleDateString('zh-CN'):'—'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterUsers(){
+  const q=(document.getElementById('admin-search')?.value||'').toLowerCase();
+  const filtered=allUsersCache.filter(u=>(u.name||'').toLowerCase().includes(q)||(u.email||'').toLowerCase().includes(q));
+  renderUserList(filtered);
+}
+
+/* ── Blue Tick Modal ── */
+function openBlueModal(uid, name, isBlue, expiry){
+  const existing=document.getElementById('blue-modal');
+  if(existing)existing.remove();
+  const m=document.createElement('div');
+  m.id='blue-modal';
+  m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)';
+  m.innerHTML=`
+    <div style="background:#fff;border-radius:24px;padding:28px;width:100%;max-width:400px;box-shadow:0 8px 40px rgba(0,0,0,.15)">
+      <div style="font-size:17px;font-weight:700;margin-bottom:4px">✓ 蓝勾管理</div>
+      <div style="font-size:13px;color:var(--t3);margin-bottom:20px">${name}</div>
+      <div class="inp2-group">
+        <label class="inp2-label">蓝勾状态 Status</label>
+        <select class="inp2" id="bm-status" style="cursor:pointer">
+          <option value="false" ${!isBlue?'selected':''}>❌ 未认证 Not Verified</option>
+          <option value="true" ${isBlue?'selected':''}>✓ 已认证 Verified</option>
+        </select>
+      </div>
+      <div class="inp2-group">
+        <label class="inp2-label">🗓️ 到期日 Expiry Date</label>
+        <input class="inp2" type="date" id="bm-expiry" value="${expiry||''}">
+        <div style="font-size:11px;color:var(--t4);margin-top:4px">${expiry&&new Date(expiry)>new Date()?'还剩 '+Math.ceil((new Date(expiry)-new Date())/(1000*60*60*24))+' 天':'未设置到期日'}</div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button onclick="document.getElementById('blue-modal').remove()" style="flex:1;padding:11px;border-radius:10px;border:1.5px solid var(--bg3);background:var(--bg1);font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif">取消</button>
+        <button onclick="saveBlueStatus('${uid}')" style="flex:1;padding:11px;border-radius:10px;background:#007AFF;color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">保存</button>
+      </div>
+    </div>`;
+  document.body.appendChild(m);
+}
+
+async function saveBlueStatus(uid){
+  const status=document.getElementById('bm-status')?.value==='true';
+  const expiry=document.getElementById('bm-expiry')?.value||'';
+  try{
+    await db.collection('profiles').doc(uid).set({blueVerified:status,blueExpiry:expiry},{merge:true});
+    document.getElementById('blue-modal')?.remove();
+    toast('✓ 蓝勾状态已更新');
+    await loadAllUsers();
+  }catch(e){toast('保存失败：'+e.message);}
+}
+
+/* ── Create Client ── */
+async function createClientAccount(){
+  const name=document.getElementById('cc-name')?.value.trim();
+  const email=document.getElementById('cc-email')?.value.trim();
+  const pwd=document.getElementById('cc-pwd')?.value;
+  const industry=document.getElementById('cc-industry')?.value;
+  const isBlue=document.getElementById('cc-blue-toggle')?.style.background==='rgb(0, 122, 255)';
+  const expiry=document.getElementById('cc-expiry')?.value||'';
+  if(!name||!email||!pwd||!industry){toast('请填写所有必填项');return;}
+  if(pwd.length<6){toast('密码至少 6 位');return;}
+  try{
+    const cred=await auth.createUserWithEmailAndPassword(email,pwd);
+    await cred.user.updateProfile({displayName:name});
+    await db.collection('profiles').doc(cred.user.uid).set({
+      name,email,industry,role:'client',
+      blueVerified:isBlue,blueExpiry:expiry,
+      createdBy:ADMIN_EMAIL,created:Date.now()
+    });
+    // Sign back in as admin
+    toast('✓ Client 账号已创建：'+name);
+    ['cc-name','cc-email','cc-pwd'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+    await loadAllUsers();
+  }catch(e){
+    toast('创建失败：'+(e.code==='auth/email-already-in-use'?'此邮箱已注册':e.message));
+  }
+}
+
+/* ── Create Staff ── */
+async function createStaffAccount(){
+  const name=document.getElementById('cs-name')?.value.trim();
+  const email=document.getElementById('cs-email')?.value.trim();
+  const pwd=document.getElementById('cs-pwd')?.value;
+  if(!name||!email||!pwd){toast('请填写所有必填项');return;}
+  if(pwd.length<6){toast('密码至少 6 位');return;}
+  try{
+    const cred=await auth.createUserWithEmailAndPassword(email,pwd);
+    await cred.user.updateProfile({displayName:name});
+    await db.collection('profiles').doc(cred.user.uid).set({
+      name,email,industry:'recruit',role:'staff',
+      blueVerified:false,createdBy:ADMIN_EMAIL,created:Date.now()
+    });
+    toast('✓ Staff 账号已创建：'+name);
+    ['cs-name','cs-email','cs-pwd'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+    await loadAllUsers();
+  }catch(e){
+    toast('创建失败：'+(e.code==='auth/email-already-in-use'?'此邮箱已注册':e.message));
+  }
+}
+
+/* ── Assign Client to Staff ── */
+async function assignClientToStaff(){
+  const staffId=document.getElementById('assign-staff')?.value;
+  const clientId=document.getElementById('assign-client')?.value;
+  const staffName=document.getElementById('assign-staff')?.selectedOptions[0]?.text;
+  if(!staffId||!clientId){toast('请选择 Staff 和 Client');return;}
+  try{
+    await db.collection('profiles').doc(clientId).set({assignedTo:staffName,assignedStaffId:staffId},{merge:true});
+    toast('✓ 已分配 Client 给 '+staffName);
+    await loadAllUsers();
+  }catch(e){toast('分配失败：'+e.message);}
+}
+
+function populateAssignSelects(){
+  const staffSel=document.getElementById('assign-staff');
+  const clientSel=document.getElementById('assign-client');
+  if(!staffSel||!clientSel)return;
+  const staffs=allUsersCache.filter(u=>u.role==='staff');
+  const clients=allUsersCache.filter(u=>u.role!=='staff');
+  staffSel.innerHTML='<option value="">选择 Staff</option>'+staffs.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
+  clientSel.innerHTML='<option value="">选择 Client</option>'+clients.map(c=>`<option value="${c.id}">${c.name} (${c.email})</option>`).join('');
+}
+
+async function loadStaffList(){
+  const el=document.getElementById('admin-staff-list'); if(!el)return;
+  const staffs=allUsersCache.filter(u=>u.role==='staff');
+  if(!staffs.length){el.innerHTML='<div style="font-size:13px;color:var(--t4)">暂无 Staff 账号 — 点击「创建账号」添加</div>';return;}
+  el.innerHTML=staffs.map(s=>{
+    const assigned=allUsersCache.filter(u=>u.assignedStaffId===s.id);
+    return `
+    <div style="padding:16px 0;border-bottom:1px solid var(--bg3)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:38px;height:38px;border-radius:10px;background:#EFF6FF;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--blue)">${(s.name||'S').charAt(0)}</div>
+        <div>
+          <div style="font-size:14px;font-weight:600">${s.name}</div>
+          <div style="font-size:12px;color:var(--t3)">${s.email}</div>
+        </div>
+        <span style="margin-left:auto;font-size:12px;padding:4px 10px;border-radius:8px;background:#EFF6FF;color:var(--blue);font-weight:600">${assigned.length} Clients</span>
+      </div>
+      ${assigned.length?'<div style="display:flex;gap:6px;flex-wrap:wrap">'+assigned.map(c=>`<span style="font-size:12px;padding:4px 10px;border-radius:8px;background:var(--bg2);color:var(--t2)">${c.name}</span>`).join('')+'</div>':'<div style="font-size:12px;color:var(--t4)">暂未分配 Client</div>'}
+    </div>`;
+  }).join('');
+}
+
+/* ── Admin Tabs ── */
+function showAdminTab(tab){
+  ['users','create','staff'].forEach(t=>{
+    const el=document.getElementById('admin-tab-'+t);
+    if(el)el.style.display=t===tab?'block':'none';
+    const btn=document.getElementById('atab-'+t);
+    if(btn){
+      btn.style.background=t===tab?'rgba(255,255,255,.15)':'transparent';
+      btn.style.border=t===tab?'1.5px solid rgba(255,255,255,.3)':'1.5px solid rgba(255,255,255,.15)';
+      btn.style.color=t===tab?'#fff':'rgba(255,255,255,.6)';
+    }
+  });
+  if(tab==='users')loadAllUsers();
+  if(tab==='staff')loadStaffList();
+}
+
+/* ── Blue toggle for create form ── */
+function toggleCreateBlue(el){
+  const isOn=el.style.background==='rgb(0, 122, 255)';
+  el.style.background=isOn?'var(--bg3)':'rgb(0, 122, 255)';
+  const dot=el.querySelector('div');
+  dot.style.left=isOn?'2px':'22px';
+  const label=document.getElementById('cc-blue-label');
+  const wrap=document.getElementById('cc-expiry-wrap');
+  if(label)label.textContent=isOn?'未开启':'已开启蓝勾认证';
+  if(wrap)wrap.style.display=isOn?'none':'block';
+}
+
+/* ── Admin Tab: show users by default ── */
+function showAdminTab_default(){
+  showAdminTab('users');
 }
 
 /* ── FIREBASE DATA ── */
@@ -1733,7 +2031,7 @@ function switchView(name,btn){
   if(btn)btn.classList.add('active');
   const t=document.getElementById('view-title'); if(t)t.textContent=viewTitles[name]||name;
   if(name==='profile') renderProfileView();
-  if(name==='admin'){ loadAllUsers(); }
+  if(name==='admin'){ showAdminTab('users'); }
 }
 
 /* ── MODAL ── */
@@ -1789,7 +2087,7 @@ function mobileMore(){
     {icon:'🎓',label:'Academy',fn:'comingSoon()'},
     {icon:'👥',label:'团队管理',fn:'comingSoon()'},
   ];
-  if(currentUser?.isAdmin) items.push({icon:'🔐',label:'Admin 控制台',fn:"switchViewMob('admin',null);document.getElementById('mob-more-menu')?.remove()"});
+  if(currentUser?.isAdmin) items.push({icon:'🔐',label:'Admin 控制台',fn:"switchViewMob('admin',document.getElementById('mob-more'));document.getElementById('mob-more-menu')?.remove();showAdminTab('users')"});
   m.innerHTML=items.map(i=>`<div onclick="${i.fn};document.getElementById('mob-more-menu')?.remove()" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:var(--t1)" onmouseover="this.style.background='var(--bg1)'" onmouseout="this.style.background='none'"><span style="font-size:18px">${i.icon}</span>${i.label}</div>`).join('')
   +'<div style="border-top:1px solid var(--bg3);margin:6px 0"></div>'
   +`<div onclick="doLogout();document.getElementById('mob-more-menu')?.remove()" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:var(--xhs)"><span style="font-size:18px">🚪</span>退出登录</div>`;
