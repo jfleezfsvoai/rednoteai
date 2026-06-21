@@ -1165,33 +1165,119 @@ function getSmartStage(followers, engagementRate, industry) {
   return 'stage4';
 }
 function getSmartSuggestions(userData, industry) {
-  const followers   = userData.followers || 0;
-  const saves       = userData.saves || 0;
-  const views       = userData.views || 1;
-  const likes       = userData.likes || 0;
-  const comments    = userData.comments || 0;
-  const newF        = userData.newFollowers || 0;
-  const inquiries   = userData.inquiries || 0;
-  const saveRate    = saves / views;
-  const engRate     = (likes + saves + comments) / views;
-  const convRate    = inquiries / views;
-  const ind         = INDUSTRY_CONTENT[industry] || INDUSTRY_CONTENT.recruit;
+  if(!userData) return [];
+  const followers = Number(userData.followers) || 0;
+  const saves     = Number(userData.saves)     || 0;
+  const views     = Math.max(Number(userData.views) || 1, 1);
+  const likes     = Number(userData.likes)     || 0;
+  const comments  = Number(userData.comments)  || 0;
+  const newF      = Number(userData.newFollowers) || 0;
+  const inquiries = Number(userData.inquiries) || 0;
+  const posts     = Math.max(Number(userData.posts) || 1, 1);
+
+  // Rates
+  const saveRate = saves / views;
+  const engRate  = (likes + saves + comments) / views;
+  const convRate = inquiries / views;
+  const avgFollowPerPost = newF / posts;
+
+  // Safe industry content
+  const validIndustry = (industry && INDUSTRY_CONTENT[industry]) ? industry : 'recruit';
+  const ind = INDUSTRY_CONTENT[validIndustry];
+  const ct  = Array.isArray(ind?.content_types) ? ind.content_types : ['干货教学','产品分享','日常VLOG','案例分享','招募内容'];
+  const hks = Array.isArray(ind?.hooks)         ? ind.hooks         : ['分享我的真实经历'];
+
   const suggestions = [];
 
-  if (followers < 500) {
-    suggestions.push({ type: '🎯 人设建立', reason: '粉丝数 < 500，优先让人认识你是谁', content: ind.content_types[0] + ' + 个人故事VLOG' });
-  } else if (followers < 2000) {
-    suggestions.push({ type: '📚 信任建立', reason: '粉丝数达到 500+，开始输出专业干货', content: ind.content_types[1] + ' + ' + ind.content_types[2] });
-  } else if (followers < 10000) {
-    suggestions.push({ type: '💰 转化变现', reason: '粉丝数达到 2000+，加强转化内容', content: ind.content_types[3] + ' + ' + ind.content_types[4] });
+  // Stage based on followers
+  let stage, stageColor;
+  if(followers < 500){
+    stage='建立人设期'; stageColor='#FF9500';
+    suggestions.push({
+      tag:'阶段建议', color:'#FF9500',
+      title:'现在是「建立人设期」',
+      reason:`你有 ${followers} 粉丝，首要任务是让人认识你是谁、你做什么。`,
+      action:`多发 VLOG + 个人故事，让人先喜欢你这个人。建议内容：${ct[0]}`
+    });
+  } else if(followers < 2000){
+    stage='建立信任期'; stageColor='#007AFF';
+    suggestions.push({
+      tag:'阶段建议', color:'#007AFF',
+      title:'现在是「建立信任期」',
+      reason:`你有 ${followers} 粉丝，要开始输出专业干货，让人觉得你懂行。`,
+      action:`多发教学类内容，每篇末尾有 CTA。建议：${ct[1]} + ${ct[2]||''}`
+    });
+  } else if(followers < 10000){
+    stage='转化变现期'; stageColor='var(--xhs)';
+    suggestions.push({
+      tag:'阶段建议', color:'var(--xhs)',
+      title:'现在是「转化变现期」',
+      reason:`你有 ${followers} 粉丝，已经建立了足够信任，现在要加强转化。`,
+      action:`每3篇内容里要有1篇转化帖。建议：${ct[3]||ct[0]} + ${ct[4]||ct[1]}`
+    });
   } else {
-    suggestions.push({ type: '🚀 规模扩张', reason: '粉丝数达到 10000+，可以开始品牌合作', content: '品牌合作内容 + 团队招募' });
+    stage='规模扩张期'; stageColor='#34C759';
+    suggestions.push({
+      tag:'阶段建议', color:'#34C759',
+      title:'现在是「规模扩张期」',
+      reason:`你有 ${followers} 粉丝，可以开始谈品牌合作和团队招募了。`,
+      action:'联系品牌合作 + 加速招募团队，让被动收入规模化。'
+    });
   }
 
-  if (saveRate < 0.03) suggestions.push({ type: '📌 提升收藏', reason: '收藏率偏低，需要更多干货内容', content: '发布「保存这篇」类型的教程帖' });
-  if (engRate < 0.05)  suggestions.push({ type: '💬 提升互动', reason: '互动率偏低，需要引导评论', content: '发布投票/问答/测试清单类内容' });
-  if (convRate > 0.005) suggestions.push({ type: '🔥 加码转化', reason: '转化率很好！适合增加招募类内容', content: ind.content_types[ind.content_types.length-1] });
-  if (newF > 20)       suggestions.push({ type: '⚡ 趁热打铁', reason: '涨粉速度快，现在是发招募内容的好时机', content: ind.hooks[0] });
+  // Content quality tips
+  const saveRatePct = (saveRate*100).toFixed(1);
+  if(saveRate < 0.02){
+    suggestions.push({
+      tag:'内容质量', color:'#AF52DE',
+      title:`收藏率只有 ${saveRatePct}%，偏低`,
+      reason:'收藏率低说明内容干货感不足，用户看完不觉得需要保存。',
+      action:'下一篇做「清单型」或「步骤教程型」内容，结尾说「收藏备用」。'
+    });
+  } else if(saveRate >= 0.05){
+    suggestions.push({
+      tag:'内容质量', color:'#34C759',
+      title:`收藏率 ${saveRatePct}%，表现很好！`,
+      reason:'收藏率高说明你的内容对用户有价值，系统会持续给你推流。',
+      action:'继续保持干货风格，可以做系列内容留住回头客。'
+    });
+  }
+
+  const engPct = (engRate*100).toFixed(1);
+  if(engRate < 0.03){
+    suggestions.push({
+      tag:'互动提升', color:'#FF9500',
+      title:`互动率 ${engPct}%，需要提升`,
+      reason:'互动率低说明内容没有引发用户参与，评论区冷清会影响系统推流。',
+      action:'结尾加一个问题，例如「你们觉得呢？评论区告诉我」或发投票帖。'
+    });
+  }
+
+  const convPct = (convRate*100).toFixed(2);
+  if(convRate > 0.003){
+    suggestions.push({
+      tag:'转化机会', color:'var(--xhs)',
+      title:`询问转化率 ${convPct}%，有商机！`,
+      reason:'每100个浏览就有人主动私信你，说明你的内容转化力很强。',
+      action:`趁热加发招募/产品内容，趁流量高峰期多收询问。`
+    });
+  } else if(convRate < 0.001 && followers > 200){
+    suggestions.push({
+      tag:'转化提升', color:'#FF9500',
+      title:'询单转化率偏低，CTA 需要加强',
+      reason:'内容有人看，但没有人私信，说明结尾引导不够清晰。',
+      action:'每篇结尾加明确的行动指引，例如「想了解的直接私信我「了解」」'
+    });
+  }
+
+  if(avgFollowPerPost > 15){
+    suggestions.push({
+      tag:'增长机会', color:'#007AFF',
+      title:`每篇平均涨 ${Math.round(avgFollowPerPost)} 粉，势头很好`,
+      reason:'说明你的内容对新用户吸引力强，这是做招募的好时机。',
+      action:`现在发招募帖效果会比平时好很多。参考 Hook：「${hks[0]}」`
+    });
+  }
 
   return suggestions;
 }
@@ -1445,18 +1531,31 @@ function renderSmartSuggestions(){
     el.innerHTML = '<div style="font-size:13px;color:var(--t4)">录入账号数据后自动生成专属建议...</div>';
     return;
   }
-  const suggestions = getSmartSuggestions(userData, currentUser.industry||'recruit');
-  const ind = INDUSTRIES[currentUser.industry] || INDUSTRIES.recruit;
+  const industry = currentUser?.industry||'recruit';
+  const suggestions = getSmartSuggestions(userData, industry);
+  const ind = INDUSTRIES[industry] || INDUSTRIES.recruit;
+  const indContent = INDUSTRY_CONTENT[industry] || INDUSTRY_CONTENT.recruit;
+
+  if(!suggestions.length){
+    el.innerHTML='<div style="font-size:13px;color:var(--t4)">暂无建议，请确保数据已录入</div>';
+    return;
+  }
+
   el.innerHTML = `
-    <div style="background:${ind.color}11;border:1.5px solid ${ind.color}33;border-radius:12px;padding:14px 16px;margin-bottom:14px">
-      <div style="font-size:12px;font-weight:700;color:${ind.color};margin-bottom:6px">📌 专属行业 Hook 公式</div>
-      ${ind.hooks.map(h=>`<div style="font-size:13px;color:var(--t2);padding:6px 0;border-bottom:1px solid ${ind.color}22">"${h}"</div>`).join('')}
+    <div style="background:${ind.color}11;border:1.5px solid ${ind.color}33;border-radius:12px;padding:16px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:700;color:${ind.color};text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">专属 Hook 公式</div>
+      ${(indContent.hooks||[]).map(h=>`
+        <div style="font-size:13px;color:var(--t2);padding:8px 0;border-bottom:1px solid ${ind.color}20;font-style:italic">"${h}"</div>
+      `).join('')}
     </div>
     ${suggestions.map(s=>`
-      <div style="background:var(--bg1);border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1.5px solid var(--bg3)">
-        <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px">${s.type}</div>
-        <div style="font-size:12px;color:var(--t3);margin-bottom:6px">${s.reason}</div>
-        <div style="font-size:13px;color:var(--xhs);font-weight:500">→ ${s.content}</div>
+      <div style="background:#fff;border-radius:12px;padding:16px;margin-bottom:10px;border:2px solid ${s.color}22">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;background:${s.color}15;color:${s.color}">${s.tag}</span>
+          <span style="font-size:14px;font-weight:600;color:var(--t1)">${s.title}</span>
+        </div>
+        <div style="font-size:12px;color:var(--t3);margin-bottom:8px;line-height:1.6">${s.reason}</div>
+        <div style="font-size:13px;color:${s.color};font-weight:500;padding:10px 12px;background:${s.color}08;border-radius:8px;line-height:1.6">→ ${s.action}</div>
       </div>`).join('')}`;
 }
 
@@ -1822,25 +1921,25 @@ function recalcScores(){
 function renderDashSmartTips(){
   const el=document.getElementById('dash-smart-content'); if(!el)return;
   if(!userData||Object.keys(userData).length===0){
-    el.innerHTML='<div style="font-size:13px;color:var(--t4)">录入数据后自动生成 ↑ 点击「更新数据」开始</div>';
+    el.innerHTML='<div style="font-size:13px;color:var(--t4);padding:8px 0">录入数据后自动生成 → 点击右上角「更新数据」</div>';
     return;
   }
   const industry=currentUser?.industry||'recruit';
   const suggestions=getSmartSuggestions(userData,industry);
-  const ind=INDUSTRIES[industry]||INDUSTRIES.recruit;
-  el.innerHTML=`
-    <div style="background:${ind.color}11;border:1.5px solid ${ind.color}33;border-radius:12px;padding:12px 14px;margin-bottom:12px">
-      <div style="font-size:11px;font-weight:700;color:${ind.color};margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">📌 ${ind.label} 专属 Hook</div>
-      <div style="font-size:13px;color:var(--t2);font-style:italic">"${ind.hooks[0]}"</div>
-    </div>
-    ${suggestions.slice(0,2).map(s=>`
-      <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--bg3)">
-        <div style="font-size:18px;flex-shrink:0">${s.type.split(' ')[0]}</div>
-        <div>
-          <div style="font-size:13px;font-weight:600;color:var(--t1)">${s.type.replace(/^[^ ]+ /,'')}</div>
-          <div style="font-size:12px;color:var(--xhs);margin-top:2px">→ ${s.content}</div>
-        </div>
-      </div>`).join('')}`;
+  if(!suggestions.length){
+    el.innerHTML='<div style="font-size:13px;color:var(--t4)">数据不足，请录入更多数据</div>';
+    return;
+  }
+  // Show top 2 tips on dashboard
+  el.innerHTML=suggestions.slice(0,2).map(s=>`
+    <div style="padding:12px 0;border-bottom:1px solid var(--bg3);display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;background:${s.color}15;color:${s.color};white-space:nowrap;margin-top:2px">${s.tag}</span>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:3px">${s.title}</div>
+        <div style="font-size:12px;color:var(--xhs);line-height:1.5">→ ${s.action}</div>
+      </div>
+    </div>`).join('')
+  +(suggestions.length>2?`<div style="font-size:12px;color:var(--t4);padding-top:10px;text-align:right"><a href="#" onclick="switchView('profile',document.getElementById('profile-nav'));return false" style="color:var(--xhs)">查看全部 ${suggestions.length} 条建议 →</a></div>`:'');
 }
 function generateTips(eng,grow,cont,conv,consist){
   const tips=[];
