@@ -383,7 +383,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 <!-- ══════════════════════════════════════
      LANDING PAGE
 ══════════════════════════════════════ -->
-<div id="page-loading" class="page active" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff">
+<div id="page-loading" class="page active" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff;position:fixed;inset:0;z-index:9999">
   <div style="text-align:center">
     <div style="width:48px;height:48px;background:var(--xhs);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px;margin:0 auto 16px">X</div>
     <div style="font-size:15px;color:var(--t3)">正在加载...</div>
@@ -1196,17 +1196,36 @@ function copyId(id,btn){
 function comingSoon(){toast('🚀 即将推出 — 敬请期待！');}
 
 /* ── AUTH STATE LISTENER ── */
-auth.onAuthStateChanged(user=>{
-  if(user&&document.getElementById('page-app').classList.contains('active')){
-    initApp();
-  }
-});
+const now = new Date();
+const _dw = ['日','一','二','三','四','五','六'];
+const _dateStr = now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日 星期'+_dw[now.getDay()];
+const gd = document.getElementById('greet-date');
+if(gd) gd.textContent = '今天是 ' + _dateStr;
 
-// Init date on load
-const now=new Date();
-const gd=document.getElementById('greet-date');
-const _days2=['日','一','二','三','四','五','六'];
-if(gd)gd.textContent='今天是 '+now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日 星期'+_days2[now.getDay()];
+// 3 second hard fallback — if Firebase never responds, go to landing
+const _fallback = setTimeout(()=>{
+  if(document.getElementById('page-loading').classList.contains('active')){
+    showPage('land');
+  }
+}, 3000);
+
+auth.onAuthStateChanged(
+  user => {
+    clearTimeout(_fallback);
+    if(document.getElementById('page-loading').classList.contains('active')){
+      if(user){
+        showPage('app');
+        initApp();
+      } else {
+        showPage('land');
+      }
+    }
+  },
+  err => {
+    clearTimeout(_fallback);
+    showPage('land');
+  }
+);
 </script>
 </body>
 </html>
