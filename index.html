@@ -383,7 +383,14 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 <!-- ══════════════════════════════════════
      LANDING PAGE
 ══════════════════════════════════════ -->
-<div id="page-land" class="page active land">
+<div id="page-loading" class="page active" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff">
+  <div style="text-align:center">
+    <div style="width:48px;height:48px;background:var(--xhs);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px;margin:0 auto 16px">X</div>
+    <div style="font-size:15px;color:var(--t3)">正在加载...</div>
+  </div>
+</div>
+
+<div id="page-land" class="page land">
   <nav class="nav">
     <div class="nav-logo">
       <div class="nav-logo-mark">X</div>
@@ -837,7 +844,8 @@ function setSyncStatus(state,msg){
 /* ── PAGE ROUTING ── */
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
+  const target = document.getElementById('page-'+id);
+  if(target) target.classList.add('active');
   window.scrollTo(0,0);
 }
 function goLand(){showPage('land')}
