@@ -182,15 +182,15 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 .sidebar-footer-btn:hover{background:var(--bg1);color:var(--xhs)}
 
 /* MAIN CONTENT */
-.main{margin-left:260px;min-height:100vh;background:var(--bg1);width:calc(100% - 260px);overflow-x:hidden}
-.main-header{background:#fff;border-bottom:1px solid var(--bg3);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.main{margin-left:260px;min-height:100vh;background:var(--bg1);width:calc(100vw - 260px);overflow-x:hidden;box-sizing:border-box}
+.main-header{background:#fff;border-bottom:1px solid var(--bg3);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40;width:100%;box-sizing:border-box}
 .main-title{font-size:17px;font-weight:600;color:var(--t1)}
 .main-header-right{display:flex;align-items:center;gap:12px}
-.main-body{padding:28px 32px}
+.main-body{padding:28px 32px;width:100%;box-sizing:border-box}
 
 /* ── VIEWS ── */
-.view{display:none}
-.view.active{display:block}
+.view{display:none;width:100%;box-sizing:border-box}
+.view.active{display:block;width:100%;box-sizing:border-box}
 
 /* ════════════════════════════════════════
    DASHBOARD VIEW
@@ -223,9 +223,9 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 .trend-flat{color:var(--t4);background:var(--bg2)}
 
 /* OVERALL SCORE */
-.overall-score{background:linear-gradient(135deg,var(--xhs) 0%,#CC1A32 100%);border-radius:var(--r2);padding:28px;margin-bottom:20px;color:#fff;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(255,36,66,.3);flex-wrap:wrap;gap:16px;overflow:hidden}
+.overall-score{background:linear-gradient(135deg,var(--xhs) 0%,#CC1A32 100%);border-radius:var(--r2);padding:28px;margin-bottom:20px;color:#fff;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(255,36,66,.3);gap:16px;overflow:hidden;flex-wrap:nowrap}
 .overall-left h3{font-size:15px;font-weight:500;opacity:.8;margin-bottom:4px}
-.overall-left .big-score{font-size:64px;font-weight:700;line-height:1;letter-spacing:-.04em}
+.overall-left .big-score{font-size:64px;font-weight:700;line-height:1;letter-spacing:-.04em;white-space:nowrap}
 .overall-left .score-label{font-size:14px;opacity:.7;margin-top:4px}
 .overall-ring{position:relative;width:120px;height:120px;flex-shrink:0}
 .overall-ring svg{transform:rotate(-90deg);width:120px;height:120px}
@@ -654,8 +654,8 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
         <!-- ── DASHBOARD VIEW ── -->
         <div id="view-dashboard" class="view active">
           <div class="dash-greeting">
-            <h2 style="white-space:nowrap">你好，<span id="greet-name">Jeffer</span> 👋</h2>
-            <p id="greet-date">今天是 — 你的小红书在持续增长中</p>
+            <h2 style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">你好，<span id="greet-name">Jeffer</span> 👋</h2>
+            <p id="greet-date" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">今天是 — 你的小红书在持续增长中</p>
           </div>
 
           <!-- OVERALL SCORE -->
