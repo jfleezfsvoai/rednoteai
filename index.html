@@ -1327,7 +1327,7 @@ async function doLogin(){
     const u=cred.user;
     currentUser={email:u.email, name:u.displayName||u.email.split('@')[0]};
     showPage('app');
-    initApp();
+    try{ await initApp(); }catch(e){ console.error('initApp login error:',e); }
   }catch(e){
     const msg=e.code==='auth/user-not-found'?'找不到此账号，请先注册'
              :e.code==='auth/wrong-password'||e.code==='auth/invalid-credential'?'密码错误，请重试'
@@ -1354,12 +1354,12 @@ async function doRegister(){
     const cred=await auth.createUserWithEmailAndPassword(email,pwd);
     await cred.user.updateProfile({displayName:name});
     const uid=cred.user.uid;
-    // Save profile (don't await - do it in background)
+    // Save profile in background
     db.collection('profiles').doc(uid).set({name,email,industry,isAdmin,created:Date.now()}).catch(()=>{});
-    // Go to app immediately
+    // Set currentUser and go to app NOW
     currentUser={email,name,industry,isAdmin};
     showPage('app');
-    initApp();
+    try{ await initApp(); }catch(e){ console.error('initApp error:',e); }
   }catch(e){
     const msg=e.code==='auth/email-already-in-use'?'此邮箱已注册，请直接登录'
              :e.code==='auth/weak-password'?'密码至少 6 位'
@@ -1395,7 +1395,7 @@ async function initApp(){
   const av=name.charAt(0).toUpperCase();
   const el=id=>document.getElementById(id);
   if(el('user-name'))el('user-name').textContent=name;
-  if(el('user-av'))el('user-av').textContent=av;
+  // Note: user-av contains img element, don't set textContent
   if(el('greet-name'))el('greet-name').textContent=name;
 
   const now=new Date();
@@ -2623,15 +2623,17 @@ const _authFallback = setTimeout(()=>{
 },5000);
 
 auth.onAuthStateChanged(async user=>{
-  if(_authDone) return;
-  _authDone=true;
   clearTimeout(_authFallback);
+  // Only auto-route on page load (when app is not already showing)
+  const appActive = document.getElementById('page-app').classList.contains('active');
+  const landActive = document.getElementById('page-land').classList.contains('active');
+  if(appActive) return; // already in app (login/register handled it directly)
   if(user){
     currentUser={email:user.email, name:user.displayName||user.email.split('@')[0]};
     showPage('app');
-    await initApp();
+    try{ await initApp(); }catch(e){ console.error(e); }
   } else {
-    showPage('land');
+    if(!_authDone){ _authDone=true; showPage('land'); }
   }
 },()=>{ clearTimeout(_authFallback); if(!_authDone){_authDone=true;showPage('land');} });
 
