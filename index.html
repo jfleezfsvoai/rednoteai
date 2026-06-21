@@ -468,12 +468,12 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
       </div>
       <div class="mockup-body">
         <div class="mockup-sidebar">
-          <div class="mock-nav-item active">📊 Dashboard</div>
-          <div class="mock-nav-item">📅 内容日历</div>
+          <div class="mock-nav-item active"><span style="display:inline-flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Dashboard</span></div>
+          <div class="mock-nav-item"><span style="display:inline-flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 内容日历</span></div>
           <div class="mock-nav-item">✍️ AI 文案</div>
           <div class="mock-nav-item">📈 数据分析</div>
-          <div class="mock-nav-item">🎓 Academy</div>
-          <div class="mock-nav-item">👥 团队管理</div>
+          <div class="mock-nav-item"><span style="display:inline-flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Academy</span></div>
+          <div class="mock-nav-item"><span style="display:inline-flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> 团队管理</span></div>
         </div>
         <div class="mockup-main">
           <div style="background:#FF2442;border-radius:14px;padding:16px;color:#fff;display:flex;align-items:center;justify-content:space-between">
@@ -683,21 +683,25 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
       </div>
       <nav class="sidebar-nav">
         <div class="nav-section-label">主菜单</div>
-        <div class="nav-item active" onclick="switchView('dashboard',this)"><span class="nav-item-icon">📊</span> Dashboard</div>
-        <div class="nav-item" onclick="switchView('calendar',this)"><span class="nav-item-icon">📅</span> 内容日历</div>
-        <div class="nav-item" onclick="switchView('data',this)"><span class="nav-item-icon">📝</span> 数据录入</div>
+        <div class="nav-item active" onclick="switchView('dashboard',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Dashboard</div>
+        <div class="nav-item" onclick="switchView('calendar',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 内容日历</div>
+        <div class="nav-item" onclick="switchView('data',this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> 数据录入</div>
         <div class="nav-section-label">成长工具</div>
-        <div class="nav-item" onclick="comingSoon()"><span class="nav-item-icon">✍️</span> AI 文案生成 <span class="nav-badge">即将</span></div>
-        <div class="nav-item" onclick="comingSoon()"><span class="nav-item-icon">🎓</span> Academy <span class="nav-badge">即将</span></div>
+        <div class="nav-item" onclick="comingSoon()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> AI 文案生成 <span class="nav-badge">即将</span></div>
+        <div class="nav-item" onclick="comingSoon()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> Academy <span class="nav-badge">即将</span></div>
         <div class="nav-section-label">Pro 功能</div>
-        <div class="nav-item" onclick="switchView('admin',this)" id="admin-nav-item" style="display:none"><span class="nav-item-icon">🔐</span> Admin 控制台</div>
-        <div class="nav-item" onclick="comingSoon()"><span class="nav-item-icon">👥</span> 团队管理</div>
-        <div class="nav-item" onclick="comingSoon()"><span class="nav-item-icon">📈</span> 高级分析</div>
+        <div class="nav-item" onclick="switchView('admin',this);showAdminTab('create')" id="admin-nav-create" style="display:none;background:var(--xhs-l);color:var(--xhs);margin-bottom:4px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          新增 Client
+        </div>
+        <div class="nav-item" onclick="switchView('admin',this)" id="admin-nav-item" style="display:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Admin 控制台</div>
+        <div class="nav-item" onclick="comingSoon()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> 团队管理</div>
+        <div class="nav-item" onclick="comingSoon()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> 高级分析</div>
         <div class="nav-section-label">设置</div>
-        <div class="nav-item" onclick="switchView('profile',this)" id="profile-nav"><span class="nav-item-icon">👤</span> 我的资料</div>
+        <div class="nav-item" onclick="switchView('profile',this)" id="profile-nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 我的资料</div>
       </nav>
       <div class="sidebar-footer">
-        <button class="sidebar-footer-btn" onclick="doLogout()">🚪 退出登录</button>
+        <button class="sidebar-footer-btn" onclick="doLogout()"><span style="display:inline-flex;align-items:center;gap:8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> 退出登录</span></button>
       </div>
     </aside>
 
@@ -867,9 +871,38 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
               <button onclick="resetAvatar()" style="font-size:11px;padding:6px 12px;border-radius:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;align-self:flex-start">重置头像</button>
             </div>
             <div style="padding:24px 28px">
-              <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:14px">更改行业 Change Industry</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px" id="industry-selector"></div>
-              <button class="save-btn" style="width:100%" onclick="saveIndustry()">保存更改 Save Changes</button>
+              <!-- Personal Info -->
+              <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:14px">个人资料 Personal Info</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+                <div class="inp2-group" style="margin-bottom:0">
+                  <label class="inp2-label">姓名 Full Name</label>
+                  <input class="inp2" id="prof-fname" placeholder="你的全名">
+                </div>
+                <div class="inp2-group" style="margin-bottom:0">
+                  <label class="inp2-label">公司名字 Company Name</label>
+                  <input class="inp2" id="prof-company" placeholder="你的公司或品牌名">
+                </div>
+                <div class="inp2-group" style="margin-bottom:0">
+                  <label class="inp2-label">SSM / 公司注册号</label>
+                  <input class="inp2" id="prof-ssm" placeholder="例：SA0123456-T">
+                </div>
+                <div class="inp2-group" style="margin-bottom:0">
+                  <label class="inp2-label">联系电话 Phone</label>
+                  <input class="inp2" id="prof-phone" placeholder="例：+60 12-345 6789">
+                </div>
+                <div class="inp2-group" style="margin-bottom:0;grid-column:1/-1">
+                  <label class="inp2-label">XHS 账号 ID</label>
+                  <input class="inp2" id="prof-xhsid" placeholder="你的小红书账号 @username">
+                </div>
+              </div>
+
+              <div style="height:1px;background:var(--bg3);margin:20px 0"></div>
+
+              <!-- Industry -->
+              <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:14px">行业选择 Industry</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px" id="industry-selector"></div>
+
+              <button class="save-btn" style="width:100%;padding:14px;font-size:15px" onclick="saveFullProfile()">保存所有资料 Save All Changes</button>
             </div>
           </div>
           <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px">
@@ -999,23 +1032,23 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
   <nav class="mobile-nav" id="mobile-nav">
     <div class="mobile-nav-inner">
       <button class="mob-nav-btn active" onclick="switchViewMob('dashboard',this)" id="mob-dashboard">
-        <span class="mob-nav-icon">📊</span>
-        <span class="mob-nav-label">Dashboard</span>
+        <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></span>
+        <span class="mob-nav-label">主页</span>
       </button>
       <button class="mob-nav-btn" onclick="switchViewMob('calendar',this)" id="mob-calendar">
-        <span class="mob-nav-icon">📅</span>
+        <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
         <span class="mob-nav-label">日历</span>
       </button>
       <button class="mob-nav-btn" onclick="switchViewMob('data',this)" id="mob-data">
-        <span class="mob-nav-icon">📝</span>
+        <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
         <span class="mob-nav-label">数据</span>
       </button>
       <button class="mob-nav-btn" onclick="switchViewMob('profile',this)" id="mob-profile">
-        <span class="mob-nav-icon">👤</span>
+        <span class="mob-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
         <span class="mob-nav-label">资料</span>
       </button>
       <button class="mob-nav-btn" onclick="mobileMore()" id="mob-more">
-        <span class="mob-nav-icon">⋯</span>
+        <span class="mob-nav-icon" style="font-size:22px;font-weight:700;letter-spacing:2px">···</span>
         <span class="mob-nav-label">更多</span>
       </button>
     </div>
@@ -1301,6 +1334,8 @@ async function initApp(){
   // Show admin nav if admin
   const adminNav = document.getElementById('admin-nav-item');
   if(adminNav) adminNav.style.display = currentUser.isAdmin ? 'flex' : 'none';
+  const adminNavCreate = document.getElementById('admin-nav-create');
+  if(adminNavCreate) adminNavCreate.style.display = currentUser.isAdmin ? 'flex' : 'none';
 
   // Update user plan badge
   const planEl = document.querySelector('.user-plan');
@@ -1320,23 +1355,43 @@ function renderIndustryBadgeSidebar(){
   }
 }
 
-function renderProfileView(){
+async function renderProfileView(){
   const ind = INDUSTRIES[currentUser.industry] || INDUSTRIES.recruit;
-  const profAv = document.getElementById('prof-av');
+  // Header
   const profName = document.getElementById('prof-name');
   const profEmail = document.getElementById('prof-email');
   const profBadge = document.getElementById('prof-industry-badge');
-  if(profAv) profAv.textContent = (currentUser.name||'U').charAt(0).toUpperCase();
   if(profName) profName.textContent = currentUser.name||'—';
   if(profEmail) profEmail.textContent = currentUser.email||'—';
   if(profBadge){ profBadge.textContent = ind.label; }
+
+  // Load full profile from Firestore
+  const uid = auth.currentUser?.uid;
+  if(uid){
+    try{
+      const doc = await db.collection('profiles').doc(uid).get();
+      if(doc.exists){
+        const p = doc.data();
+        const set = (id,val) => { const el=document.getElementById(id); if(el&&val) el.value=val; };
+        set('prof-fname',   p.fullName||p.name||'');
+        set('prof-company', p.company||'');
+        set('prof-ssm',     p.ssm||'');
+        set('prof-phone',   p.phone||'');
+        set('prof-xhsid',   p.xhsId||'');
+      }
+    }catch(e){ console.log('Profile load:',e); }
+  }
+
+  // Also set name field from currentUser
+  const fnEl = document.getElementById('prof-fname');
+  if(fnEl && !fnEl.value) fnEl.value = currentUser.name||'';
 
   // Render industry selector
   const sel = document.getElementById('industry-selector');
   if(sel){
     sel.innerHTML = Object.entries(INDUSTRIES).map(([key,val])=>`
-      <div onclick="selectIndustry('${key}')" id="ind-${key}" style="padding:12px 14px;border-radius:12px;border:2px solid ${currentUser.industry===key?val.color:'var(--bg3)'};background:${currentUser.industry===key?val.color+'11':'var(--bg1)'};cursor:pointer;transition:all .2s">
-        <div style="font-size:15px;margin-bottom:3px">${val.label}</div>
+      <div onclick="selectIndustry('${key}')" id="ind-${key}" style="padding:14px;border-radius:12px;border:2px solid ${currentUser.industry===key?val.color:'var(--bg3)'};background:${currentUser.industry===key?val.color+'11':'var(--bg1)'};cursor:pointer;transition:all .2s">
+        <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:2px">${val.label}</div>
         <div style="font-size:11px;color:var(--t4)">${val.en}</div>
       </div>`).join('');
   }
@@ -1345,23 +1400,42 @@ function renderProfileView(){
   renderSmartSuggestions();
 }
 
+async function saveFullProfile(){
+  const uid = auth.currentUser?.uid; if(!uid){toast('请先登录');return;}
+  const name = document.getElementById('prof-fname')?.value.trim()||currentUser.name;
+  const data = {
+    name,
+    fullName:  name,
+    company:   document.getElementById('prof-company')?.value.trim()||'',
+    ssm:       document.getElementById('prof-ssm')?.value.trim()||'',
+    phone:     document.getElementById('prof-phone')?.value.trim()||'',
+    xhsId:     document.getElementById('prof-xhsid')?.value.trim()||'',
+    industry:  currentUser.industry||'recruit',
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  };
+  const btn = document.querySelector('#view-profile .save-btn');
+  if(btn){btn.disabled=true;btn.textContent='保存中...';}
+  try{
+    await db.collection('profiles').doc(uid).set(data,{merge:true});
+    await auth.currentUser.updateProfile({displayName:name});
+    currentUser.name = name;
+    // Update sidebar
+    const un=document.getElementById('user-name'); if(un)un.textContent=name;
+    const pn=document.getElementById('prof-name'); if(pn)pn.textContent=name;
+    renderIndustryBadgeSidebar();
+    toast('✓ 所有资料已保存');
+  }catch(e){toast('保存失败：'+e.message);}
+  finally{if(btn){btn.disabled=false;btn.textContent='保存所有资料 Save All Changes';}}
+}
+
 function selectIndustry(key){
   currentUser.industry = key;
   renderProfileView();
 }
 
 async function saveIndustry(){
-  const uid=auth.currentUser?.uid;
-  if(uid){
-    try{
-      await db.collection('profiles').doc(uid).set({industry:currentUser.industry},{merge:true});
-      renderIndustryBadgeSidebar();
-      toast('✓ 行业已更新 Industry updated');
-    }catch(e){toast('保存失败：'+e.message);}
-  } else {
-    renderIndustryBadgeSidebar();
-    toast('✓ 行业已更新');
-  }
+  // Now handled by saveFullProfile
+  await saveFullProfile();
 }
 
 function renderSmartSuggestions(){
@@ -1622,45 +1696,54 @@ function loadUserData(){
   const uid=getUserId();
   db.collection('userData').doc(uid).onSnapshot(snap=>{
     if(snap.exists){
-      userData=snap.data();
+      userData={...userData,...snap.data()};
       populateModalFields();
       recalcScores();
+      renderDashSmartTips();
       setSyncStatus('ok','已同步');
     } else {
       setSyncStatus('ok','已连接');
+      renderDashSmartTips(); // show empty state
     }
   },err=>{
     setSyncStatus('err','连接失败');
     console.error(err);
   });
 }
-async function saveModalData(){
+async async function saveModalData(){
   const get=id=>parseInt(document.getElementById(id)?.value)||0;
-  const period=document.getElementById('m-period')?.value||'30';
+  const period=parseInt(document.getElementById('m-period')?.value||'30');
+  const blueToggle=document.getElementById('blue-toggle');
+  const isBlue=blueToggle?.style.background==='rgb(0, 122, 255)'||blueToggle?.getAttribute('data-on')==='true'||userData?.blueVerified||false;
   const now=new Date();
   const data={
-    followers:get('m-followers'),likes:get('m-likes'),saves:get('m-saves'),
-    views:get('m-views'),newFollowers:get('m-newfollowers'),
-    inquiries:get('m-inquiries'),comments:get('m-comments'),posts:get('m-posts'),
-    period:parseInt(period),
-    blueVerified:userData?.blueVerified||false,
-    updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
-    updatedDate:now.toLocaleDateString('zh-CN'),
-    industry: currentUser.industry||'recruit'
+    followers:get('m-followers'), likes:get('m-likes'), saves:get('m-saves'),
+    views:get('m-views'), newFollowers:get('m-newfollowers'),
+    inquiries:get('m-inquiries'), comments:get('m-comments'), posts:Math.max(get('m-posts'),1),
+    period:period,
+    blueVerified:isBlue,
+    updatedDate:now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日',
+    industry:currentUser?.industry||'recruit'
   };
-  // Daily average normalised values
-  data.dailyViews    = Math.round(data.views / data.period);
-  data.dailyFollowers= Math.round(data.newFollowers / data.period);
+  data.dailyViews=Math.round(data.views/data.period);
+  data.dailyFollowers=Math.round(data.newFollowers/data.period);
+  const saveBtn=document.querySelector('.modal-footer .btn-xhs');
+  if(saveBtn){saveBtn.disabled=true;saveBtn.textContent='保存中...';}
   try{
     const uid=getUserId();
-    // Save as current data
     await db.collection('userData').doc(uid).set(data,{merge:true});
-    // Also save snapshot for history
-    await db.collection('userData').doc(uid).collection('snapshots').add(data);
-    userData=data; recalcScores();
-    if(document.getElementById('view-profile').classList.contains('active')) renderSmartSuggestions();
-    closeDataModal(); toast('✓ 数据已保存并记录快照');
-  }catch(e){toast('保存失败：'+e.message);}
+    try{ await db.collection('userData').doc(uid).collection('snapshots').add({...data,savedAt:firebase.firestore.FieldValue.serverTimestamp()}); }catch(e2){}
+    userData={...userData,...data};
+    recalcScores();
+    const profView=document.getElementById('view-profile');
+    if(profView?.classList.contains('active')) renderSmartSuggestions();
+    closeDataModal();
+    toast('✓ 数据已保存，健康分数已更新');
+  }catch(e){
+    toast('保存失败：'+e.message);
+  }finally{
+    if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='保存并更新分数';}
+  }
 }
 async function saveAccountData(){
   const get=id=>parseInt(document.getElementById(id)?.value)||0;
@@ -2137,6 +2220,7 @@ function openDataModal(){
   const bt=document.getElementById('blue-toggle');
   if(bt){
     const isBlue=userData?.blueVerified||false;
+    bt.setAttribute('data-on', isBlue);
     bt.style.background=isBlue?'#007AFF':'var(--bg3)';
     const dot=bt.querySelector('div');
     if(dot)dot.style.left=isBlue?'22px':'2px';
@@ -2163,23 +2247,30 @@ const DEFAULT_AVATAR = 'https://jfleezfsvoai.github.io/rednoteai/rednotesquare.p
 
 function uploadAvatar(input){
   const file = input.files[0]; if(!file)return;
-  if(file.size > 2*1024*1024){toast('图片不能超过 2MB');return;}
+  if(file.size > 5*1024*1024){toast('图片不能超过 5MB');return;}
+  // Compress image to ~100KB using canvas
+  const img = new Image();
   const reader = new FileReader();
-  reader.onload = async e => {
-    const dataUrl = e.target.result;
-    // Save to Firestore
+  reader.onload = e => { img.src = e.target.result; };
+  img.onload = async () => {
+    const canvas = document.createElement('canvas');
+    const MAX = 200; // max 200px
+    const ratio = Math.min(MAX/img.width, MAX/img.height);
+    canvas.width  = Math.round(img.width  * ratio);
+    canvas.height = Math.round(img.height * ratio);
+    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
     const uid = auth.currentUser?.uid;
-    if(uid){
-      try{
-        await db.collection('profiles').doc(uid).set({avatarUrl:dataUrl},{merge:true});
-        setAvatarUI(dataUrl);
-        toast('✓ 头像已更新');
-      }catch(err){
-        // If too large for Firestore, save to localStorage
-        localStorage.setItem('avatar_'+uid, dataUrl);
-        setAvatarUI(dataUrl);
-        toast('✓ 头像已更新（本地）');
-      }
+    if(!uid){ toast('请先登录'); return; }
+    // Always save to localStorage (instant, no size limit for small compressed img)
+    localStorage.setItem('avatar_'+uid, dataUrl);
+    setAvatarUI(dataUrl);
+    // Try Firestore too
+    try{
+      await db.collection('profiles').doc(uid).set({avatarUrl:dataUrl},{merge:true});
+      toast('✓ 头像已更新并同步云端');
+    }catch(err){
+      toast('✓ 头像已更新（本地保存）');
     }
   };
   reader.readAsDataURL(file);
@@ -2285,18 +2376,21 @@ function mobileMore(){
   if(currentUser?.isAdmin) items.push({icon:'🔐',label:'Admin 控制台',fn:"switchViewMob('admin',document.getElementById('mob-more'));document.getElementById('mob-more-menu')?.remove();showAdminTab('users')"});
   m.innerHTML=items.map(i=>`<div onclick="${i.fn};document.getElementById('mob-more-menu')?.remove()" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:var(--t1)" onmouseover="this.style.background='var(--bg1)'" onmouseout="this.style.background='none'"><span style="font-size:18px">${i.icon}</span>${i.label}</div>`).join('')
   +'<div style="border-top:1px solid var(--bg3);margin:6px 0"></div>'
-  +`<div onclick="doLogout();document.getElementById('mob-more-menu')?.remove()" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:var(--xhs)"><span style="font-size:18px">🚪</span>退出登录</div>`;
+  +`<div onclick="doLogout();document.getElementById('mob-more-menu')?.remove()" style="display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:500;color:var(--xhs)"><span style="font-size:18px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>退出登录</div>`;
   document.body.appendChild(m);
   // Close on outside click
   setTimeout(()=>document.addEventListener('click',function h(e){if(!m.contains(e.target)){m.remove();document.removeEventListener('click',h);}},),100);
 }
 
 function toggleBlue(el){
-  const isOn = el.style.background === 'rgb(0, 122, 255)' || el.style.background === '#007AFF';
-  el.style.background = isOn ? 'var(--bg3)' : '#007AFF';
+  const isOn = el.getAttribute('data-on')==='true';
+  const next = !isOn;
+  el.setAttribute('data-on', next);
+  el.style.background = next ? '#007AFF' : 'var(--bg3)';
   const dot = el.querySelector('div');
-  dot.style.left = isOn ? '2px' : '22px';
-  userData.blueVerified = !isOn;
+  if(dot) dot.style.left = next ? '22px' : '2px';
+  if(!userData) userData={};
+  userData.blueVerified = next;
 }
 
 function setPeriod(days, btn){
