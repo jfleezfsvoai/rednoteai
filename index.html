@@ -595,6 +595,17 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
           <div class="form-group"><label class="form-label">你的名字</label><input class="form-input" type="text" id="reg-name" placeholder="Jeffer"></div>
           <div class="form-group"><label class="form-label">电子邮箱</label><input class="form-input" type="email" id="reg-email" placeholder="your@email.com"></div>
           <div class="form-group"><label class="form-label">设置密码</label><input class="form-input" type="password" id="reg-pwd" placeholder="至少 6 位"></div>
+          <div class="form-group">
+            <label class="form-label">你的行业 Your Industry</label>
+            <select class="form-input" id="reg-industry" style="cursor:pointer">
+              <option value="">请选择行业 Select Industry</option>
+              <option value="pet">🐾 宠物（食物/保健品）Pet Food & Health</option>
+              <option value="health">💊 健康保健品 Health Supplements</option>
+              <option value="recruit">🤝 招募 / AI电商 Recruitment / AI Ecommerce</option>
+              <option value="realty">🏠 房地产 Real Estate</option>
+              <option value="insurance">🛡️ 保险业 Insurance</option>
+            </select>
+          </div>
           <button class="btn btn-xhs auth-btn" onclick="doRegister()">创建账号 →</button>
         </div>
         <div style="text-align:center;margin-top:24px"><a class="nav-link" onclick="goLand()" style="font-size:13px">← 返回首页</a></div>
@@ -629,8 +640,11 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
         <div class="nav-item" onclick="comingSoon()"><span class="nav-item-icon">✍️</span> AI 文案生成 <span class="nav-badge">即将</span></div>
         <div class="nav-item" onclick="comingSoon()"><span class="nav-item-icon">🎓</span> Academy <span class="nav-badge">即将</span></div>
         <div class="nav-section-label">Pro 功能</div>
+        <div class="nav-item" onclick="switchView('admin',this)" id="admin-nav-item" style="display:none"><span class="nav-item-icon">🔐</span> Admin 控制台</div>
         <div class="nav-item" onclick="comingSoon()"><span class="nav-item-icon">👥</span> 团队管理</div>
         <div class="nav-item" onclick="comingSoon()"><span class="nav-item-icon">📈</span> 高级分析</div>
+        <div class="nav-section-label">设置</div>
+        <div class="nav-item" onclick="switchView('profile',this)" id="profile-nav"><span class="nav-item-icon">👤</span> 我的资料</div>
       </nav>
       <div class="sidebar-footer">
         <button class="sidebar-footer-btn" onclick="doLogout()">🚪 退出登录</button>
@@ -771,6 +785,46 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
           </div>
         </div>
 
+        <!-- ── PROFILE VIEW ── -->
+        <div id="view-profile" class="view">
+          <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);overflow:hidden;margin-bottom:16px">
+            <div style="background:linear-gradient(135deg,var(--xhs) 0%,#CC1A32 100%);padding:32px 28px;display:flex;align-items:center;gap:20px">
+              <div style="width:64px;height:64px;border-radius:20px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;flex-shrink:0" id="prof-av">J</div>
+              <div>
+                <div style="font-size:20px;font-weight:700;color:#fff" id="prof-name">—</div>
+                <div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:3px" id="prof-email">—</div>
+                <div style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:12px;color:#fff;font-weight:600" id="prof-industry-badge">—</div>
+              </div>
+            </div>
+            <div style="padding:24px 28px">
+              <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:14px">更改行业 Change Industry</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px" id="industry-selector"></div>
+              <button class="save-btn" style="width:100%" onclick="saveIndustry()">保存更改 Save Changes</button>
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px">
+            <div style="font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px">🧠 智能内容建议 Smart Content Tips</div>
+            <div style="font-size:13px;color:var(--t3);margin-bottom:18px">根据你的行业和账号数据自动生成的专属建议</div>
+            <div id="smart-suggestions"><div style="font-size:13px;color:var(--t4)">录入账号数据后自动生成...</div></div>
+          </div>
+        </div>
+
+        <!-- ── ADMIN VIEW ── -->
+        <div id="view-admin" class="view">
+          <div style="background:linear-gradient(135deg,#1C1C1E,#3A3A3C);border-radius:var(--r2);padding:24px 28px;margin-bottom:16px;color:#fff">
+            <div style="font-size:11px;font-family:'DM Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px">Admin Console · rednoteadmin</div>
+            <div style="font-size:20px;font-weight:700">🔐 管理员控制台</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:4px">管理所有用户 · 实时数据监控 · 1对1 支持</div>
+          </div>
+          <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <div style="font-size:15px;font-weight:700">所有用户 All Users</div>
+              <button class="save-btn" onclick="loadAllUsers()" style="padding:8px 16px;font-size:13px">刷新 Refresh</button>
+            </div>
+            <div id="admin-user-list"><div style="font-size:13px;color:var(--t4)">点击刷新加载...</div></div>
+          </div>
+        </div>
+
       </div><!-- /main-body -->
     </main>
   </div><!-- /app-shell -->
@@ -783,14 +837,22 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
     <div class="modal-title">更新账号数据</div>
     <div class="modal-sub">填入你的小红书最新数据，系统实时更新你的健康分数</div>
     <div class="modal-grid">
-      <div class="inp2-group"><label class="inp2-label">总粉丝数</label><input class="inp2" type="number" id="m-followers" placeholder="1200"></div>
-      <div class="inp2-group"><label class="inp2-label">总获赞数</label><input class="inp2" type="number" id="m-likes" placeholder="3400"></div>
-      <div class="inp2-group"><label class="inp2-label">总收藏数</label><input class="inp2" type="number" id="m-saves" placeholder="890"></div>
-      <div class="inp2-group"><label class="inp2-label">总浏览量（本月）</label><input class="inp2" type="number" id="m-views" placeholder="45000"></div>
-      <div class="inp2-group"><label class="inp2-label">本月涨粉</label><input class="inp2" type="number" id="m-newfollowers" placeholder="320"></div>
-      <div class="inp2-group"><label class="inp2-label">本月询问数</label><input class="inp2" type="number" id="m-inquiries" placeholder="47"></div>
-      <div class="inp2-group"><label class="inp2-label">本月评论数</label><input class="inp2" type="number" id="m-comments" placeholder="156"></div>
-      <div class="inp2-group"><label class="inp2-label">本月发帖数</label><input class="inp2" type="number" id="m-posts" placeholder="18"></div>
+      <div class="inp2-group"><label class="inp2-label">总粉丝数 <span style="color:var(--t4);font-weight:400">Total Followers</span></label><input class="inp2" type="number" id="m-followers" placeholder="例：1200"><div style="font-size:11px;color:var(--t4);margin-top:4px">📍 XHS 个人主页 → 粉丝数字</div></div>
+      <div class="inp2-group"><label class="inp2-label">总获赞数 <span style="color:var(--t4);font-weight:400">Total Likes</span></label><input class="inp2" type="number" id="m-likes" placeholder="例：3400"><div style="font-size:11px;color:var(--t4);margin-top:4px">📍 个人主页 → 获赞与收藏</div></div>
+      <div class="inp2-group"><label class="inp2-label">总收藏数 <span style="color:var(--t4);font-weight:400">Total Saves</span></label><input class="inp2" type="number" id="m-saves" placeholder="例：890"><div style="font-size:11px;color:var(--t4);margin-top:4px">📍 个人主页 → 获赞与收藏（旁边的数字）</div></div>
+      <div class="inp2-group"><label class="inp2-label">总浏览量 <span style="color:var(--t4);font-weight:400">Monthly Impressions</span></label><input class="inp2" type="number" id="m-views" placeholder="例：45000"><div style="font-size:11px;color:var(--t4);margin-top:4px">📍 创作中心 → 数据概览 → 笔记总曝光量</div></div>
+      <div class="inp2-group"><label class="inp2-label">本月涨粉 <span style="color:var(--t4);font-weight:400">New Followers</span></label><input class="inp2" type="number" id="m-newfollowers" placeholder="例：320"><div style="font-size:11px;color:var(--t4);margin-top:4px">📍 创作中心 → 粉丝 → 新增粉丝数</div></div>
+      <div class="inp2-group"><label class="inp2-label">本月询问数 <span style="color:var(--t4);font-weight:400">Inquiries / DMs</span></label><input class="inp2" type="number" id="m-inquiries" placeholder="例：47"><div style="font-size:11px;color:var(--t4);margin-top:4px">📍 私信收件箱 → 手动统计本月收到的询单私信</div></div>
+      <div class="inp2-group"><label class="inp2-label">本月评论数 <span style="color:var(--t4);font-weight:400">Total Comments</span></label><input class="inp2" type="number" id="m-comments" placeholder="例：156"><div style="font-size:11px;color:var(--t4);margin-top:4px">📍 创作中心 → 互动数据 → 评论数</div></div>
+      <div class="inp2-group"><label class="inp2-label">本月发帖数 <span style="color:var(--t4);font-weight:400">Posts Published</span></label><input class="inp2" type="number" id="m-posts" placeholder="例：18"><div style="font-size:11px;color:var(--t4);margin-top:4px">📍 你这个月一共发了多少篇笔记</div></div>
+    </div>
+    <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--bg3)">
+      <label style="font-size:13px;font-weight:600;color:var(--t2);display:block;margin-bottom:8px">这组数据是最近多少天的？<span style="color:var(--t4);font-weight:400"> (Data period)</span></label>
+      <div style="display:flex;gap:8px">
+        <button onclick="setPeriod(7,this)" style="flex:1;padding:9px;border-radius:10px;border:2px solid var(--bg3);background:var(--bg1);font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s" id="period-7">7天 Last 7 Days</button>
+        <button onclick="setPeriod(30,this)" style="flex:1;padding:9px;border-radius:10px;border:2px solid var(--xhs);background:var(--xhs-l);font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;color:var(--xhs)" id="period-30">30天 Last 30 Days</button>
+      </div>
+      <input type="hidden" id="m-period" value="30">
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeDataModal()">取消</button>
@@ -815,6 +877,87 @@ firebase.initializeApp({
 });
 const db = firebase.firestore();
 let currentUser = null;
+
+/* ── ADMIN CONFIG ── */
+const ADMIN_EMAIL = 'rednoteadmin@gmail.com';
+const ADMIN_PWD   = btoa('111111');
+
+/* ── INDUSTRIES ── */
+const INDUSTRIES = {
+  pet:      { label: '🐾 宠物（食物/保健品）', en: 'Pet Food & Health', color: '#FF9500' },
+  health:   { label: '💊 健康保健品',          en: 'Health Supplements', color: '#34C759' },
+  recruit:  { label: '🤝 招募 / AI电商',       en: 'Recruitment / AI Ecommerce', color: '#FF2442' },
+  realty:   { label: '🏠 房地产',              en: 'Real Estate', color: '#007AFF' },
+  insurance:{ label: '🛡️ 保险业',             en: 'Insurance', color: '#AF52DE' },
+};
+
+/* ── INDUSTRY CONTENT STRATEGY ── */
+const INDUSTRY_CONTENT = {
+  pet: {
+    hooks: ['我家毛孩子拒绝吃饭，直到我发现了这个', '宠物主人必看：这5种零食千万别买', '养猫1年花了多少钱？真实账单公开'],
+    content_types: ['产品开箱测评', '宠物健康知识', '铲屎官日常VLOG', '产品对比', '客户宠物照片'],
+    cta_style: '爱宠物的朋友私信我「宝贝」',
+  },
+  health: {
+    hooks: ['我坚持吃了30天，身体发生了什么变化', '医生不会告诉你的5个健康误区', '这个成分我找了3年，终于找到了'],
+    content_types: ['成分解析教育', '使用前后对比', '客户真实反馈', '健康知识科普', '产品选购指南'],
+    cta_style: '想了解更多私信我「健康」',
+  },
+  recruit: {
+    hooks: ['我用AI每月赚到RM50K，同时我在陪猫睡觉', '不出门，不见客，AI帮我做单', '普通人如何在2025年用AI做副业'],
+    content_types: ['AI工具教学', '收益截图分析', 'VLOG日常', '系统演示', '代理成功案例'],
+    cta_style: '认真想了解的朋友私信我「开始」',
+  },
+  realty: {
+    hooks: ['马来西亚这5个区域房价要涨了', '买房前没人告诉你的10件事', '月薪RM5000可以在哪里买房？'],
+    content_types: ['楼盘分析', '买房知识教育', '市场趋势分析', '客户成功案例', '区域对比'],
+    cta_style: '想了解更多房产资讯私信我「买房」',
+  },
+  insurance: {
+    hooks: ['这3种保险是必须买的，很多人还不知道', '保险理赔被拒的5个原因', '月付RM100可以买到什么保障？'],
+    content_types: ['保险知识科普', '理赔案例分享', '产品对比分析', '客户见证', '常见误区解析'],
+    cta_style: '想了解保障方案私信我「保险」',
+  },
+};
+
+/* ── SMART CALENDAR LOGIC ── */
+function getSmartStage(followers, engagementRate, industry) {
+  if (followers < 500)        return 'stage1';
+  if (followers < 2000)       return 'stage2';
+  if (followers < 10000)      return 'stage3';
+  return 'stage4';
+}
+function getSmartSuggestions(userData, industry) {
+  const followers   = userData.followers || 0;
+  const saves       = userData.saves || 0;
+  const views       = userData.views || 1;
+  const likes       = userData.likes || 0;
+  const comments    = userData.comments || 0;
+  const newF        = userData.newFollowers || 0;
+  const inquiries   = userData.inquiries || 0;
+  const saveRate    = saves / views;
+  const engRate     = (likes + saves + comments) / views;
+  const convRate    = inquiries / views;
+  const ind         = INDUSTRY_CONTENT[industry] || INDUSTRY_CONTENT.recruit;
+  const suggestions = [];
+
+  if (followers < 500) {
+    suggestions.push({ type: '🎯 人设建立', reason: '粉丝数 < 500，优先让人认识你是谁', content: ind.content_types[0] + ' + 个人故事VLOG' });
+  } else if (followers < 2000) {
+    suggestions.push({ type: '📚 信任建立', reason: '粉丝数达到 500+，开始输出专业干货', content: ind.content_types[1] + ' + ' + ind.content_types[2] });
+  } else if (followers < 10000) {
+    suggestions.push({ type: '💰 转化变现', reason: '粉丝数达到 2000+，加强转化内容', content: ind.content_types[3] + ' + ' + ind.content_types[4] });
+  } else {
+    suggestions.push({ type: '🚀 规模扩张', reason: '粉丝数达到 10000+，可以开始品牌合作', content: '品牌合作内容 + 团队招募' });
+  }
+
+  if (saveRate < 0.03) suggestions.push({ type: '📌 提升收藏', reason: '收藏率偏低，需要更多干货内容', content: '发布「保存这篇」类型的教程帖' });
+  if (engRate < 0.05)  suggestions.push({ type: '💬 提升互动', reason: '互动率偏低，需要引导评论', content: '发布投票/问答/测试清单类内容' });
+  if (convRate > 0.005) suggestions.push({ type: '🔥 加码转化', reason: '转化率很好！适合增加招募类内容', content: ind.content_types[ind.content_types.length-1] });
+  if (newF > 20)       suggestions.push({ type: '⚡ 趁热打铁', reason: '涨粉速度快，现在是发招募内容的好时机', content: ind.hooks[0] });
+
+  return suggestions;
+}
 
 /* ── TOAST ── */
 function toast(msg,dur=2400){
@@ -858,26 +1001,36 @@ function doLogin(){
   errEl.style.display='none';
   if(!email){errEl.textContent='请输入邮箱';errEl.style.display='block';return;}
   if(!pwd){errEl.textContent='请输入密码';errEl.style.display='block';return;}
+
+  // Seed admin account if not exists
   const users=JSON.parse(localStorage.getItem('xhs_users')||'{}');
+  if(!users[ADMIN_EMAIL]){
+    users[ADMIN_EMAIL]={name:'Admin',pwd:ADMIN_PWD,industry:'recruit',isAdmin:true,created:Date.now()};
+    localStorage.setItem('xhs_users',JSON.stringify(users));
+  }
   if(!users[email]){errEl.textContent='找不到此账号，请先注册';errEl.style.display='block';return;}
   if(users[email].pwd!==btoa(pwd)){errEl.textContent='密码错误，请重试';errEl.style.display='block';return;}
-  currentUser={email,name:users[email].name};
+  const u=users[email];
+  currentUser={email,name:u.name,industry:u.industry||'recruit',isAdmin:!!u.isAdmin};
   goApp();
 }
 function doRegister(){
   const name=document.getElementById('reg-name').value.trim();
   const email=document.getElementById('reg-email').value.trim();
   const pwd=document.getElementById('reg-pwd').value;
+  const industry=document.getElementById('reg-industry').value;
   const errEl=document.getElementById('reg-error');
   errEl.style.display='none';
   if(!name){errEl.textContent='请输入你的名字';errEl.style.display='block';return;}
   if(!email||!email.includes('@')){errEl.textContent='请输入有效的邮箱';errEl.style.display='block';return;}
   if(!pwd||pwd.length<6){errEl.textContent='密码至少 6 位';errEl.style.display='block';return;}
+  if(!industry){errEl.textContent='请选择你的行业';errEl.style.display='block';return;}
   const users=JSON.parse(localStorage.getItem('xhs_users')||'{}');
   if(users[email]){errEl.textContent='此邮箱已注册，请直接登录';errEl.style.display='block';return;}
-  users[email]={name,pwd:btoa(pwd),created:Date.now()};
+  const isAdmin=(email===ADMIN_EMAIL && btoa(pwd)===ADMIN_PWD);
+  users[email]={name,pwd:btoa(pwd),industry,isAdmin,created:Date.now()};
   localStorage.setItem('xhs_users',JSON.stringify(users));
-  currentUser={email,name};
+  currentUser={email,name,industry,isAdmin};
   goApp();
 }
 function doLogout(){
@@ -905,6 +1058,113 @@ function initApp(){
   buildCalendar();
   updateProgress();
   loadUserData();
+
+  // Show admin nav if admin
+  const adminNav = document.getElementById('admin-nav-item');
+  if(adminNav) adminNav.style.display = currentUser.isAdmin ? 'flex' : 'none';
+
+  // Update user plan badge
+  const planEl = document.querySelector('.user-plan');
+  if(planEl) planEl.textContent = currentUser.isAdmin ? 'Admin' : 'Creator Plan';
+
+  // Update sidebar industry tag
+  renderIndustryBadgeSidebar();
+}
+
+function renderIndustryBadgeSidebar(){
+  const ind = INDUSTRIES[currentUser.industry] || INDUSTRIES.recruit;
+  const planEl = document.querySelector('.user-plan');
+  if(planEl && !currentUser.isAdmin){
+    planEl.textContent = ind.label;
+    planEl.style.background = ind.color + '22';
+    planEl.style.color = ind.color;
+  }
+}
+
+function renderProfileView(){
+  const ind = INDUSTRIES[currentUser.industry] || INDUSTRIES.recruit;
+  const profAv = document.getElementById('prof-av');
+  const profName = document.getElementById('prof-name');
+  const profEmail = document.getElementById('prof-email');
+  const profBadge = document.getElementById('prof-industry-badge');
+  if(profAv) profAv.textContent = (currentUser.name||'U').charAt(0).toUpperCase();
+  if(profName) profName.textContent = currentUser.name||'—';
+  if(profEmail) profEmail.textContent = currentUser.email||'—';
+  if(profBadge){ profBadge.textContent = ind.label; }
+
+  // Render industry selector
+  const sel = document.getElementById('industry-selector');
+  if(sel){
+    sel.innerHTML = Object.entries(INDUSTRIES).map(([key,val])=>`
+      <div onclick="selectIndustry('${key}')" id="ind-${key}" style="padding:12px 14px;border-radius:12px;border:2px solid ${currentUser.industry===key?val.color:'var(--bg3)'};background:${currentUser.industry===key?val.color+'11':'var(--bg1)'};cursor:pointer;transition:all .2s">
+        <div style="font-size:15px;margin-bottom:3px">${val.label}</div>
+        <div style="font-size:11px;color:var(--t4)">${val.en}</div>
+      </div>`).join('');
+  }
+
+  // Smart suggestions
+  renderSmartSuggestions();
+}
+
+function selectIndustry(key){
+  currentUser.industry = key;
+  renderProfileView();
+}
+
+function saveIndustry(){
+  const users = JSON.parse(localStorage.getItem('xhs_users')||'{}');
+  if(users[currentUser.email]){
+    users[currentUser.email].industry = currentUser.industry;
+    localStorage.setItem('xhs_users', JSON.stringify(users));
+  }
+  renderIndustryBadgeSidebar();
+  toast('✓ 行业已更新 Industry updated');
+}
+
+function renderSmartSuggestions(){
+  const el = document.getElementById('smart-suggestions');
+  if(!el) return;
+  if(!userData || Object.keys(userData).length === 0){
+    el.innerHTML = '<div style="font-size:13px;color:var(--t4)">录入账号数据后自动生成专属建议...</div>';
+    return;
+  }
+  const suggestions = getSmartSuggestions(userData, currentUser.industry||'recruit');
+  const ind = INDUSTRIES[currentUser.industry] || INDUSTRIES.recruit;
+  el.innerHTML = `
+    <div style="background:${ind.color}11;border:1.5px solid ${ind.color}33;border-radius:12px;padding:14px 16px;margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:${ind.color};margin-bottom:6px">📌 专属行业 Hook 公式</div>
+      ${ind.hooks.map(h=>`<div style="font-size:13px;color:var(--t2);padding:6px 0;border-bottom:1px solid ${ind.color}22">"${h}"</div>`).join('')}
+    </div>
+    ${suggestions.map(s=>`
+      <div style="background:var(--bg1);border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1.5px solid var(--bg3)">
+        <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:4px">${s.type}</div>
+        <div style="font-size:12px;color:var(--t3);margin-bottom:6px">${s.reason}</div>
+        <div style="font-size:13px;color:var(--xhs);font-weight:500">→ ${s.content}</div>
+      </div>`).join('')}`;
+}
+
+function loadAllUsers(){
+  const el = document.getElementById('admin-user-list'); if(!el) return;
+  const users = JSON.parse(localStorage.getItem('xhs_users')||'{}');
+  const emails = Object.keys(users).filter(e=>e!==ADMIN_EMAIL);
+  if(!emails.length){ el.innerHTML='<div style="font-size:13px;color:var(--t4)">暂时没有用户注册</div>'; return; }
+  el.innerHTML = emails.map(email=>{
+    const u=users[email];
+    const ind=INDUSTRIES[u.industry]||INDUSTRIES.recruit;
+    return `
+    <div style="display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--bg3)">
+      <div style="width:40px;height:40px;border-radius:12px;background:var(--xhs-l);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--xhs)">${(u.name||'U').charAt(0).toUpperCase()}</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--t1)">${u.name||'—'}</div>
+        <div style="font-size:12px;color:var(--t3)">${email}</div>
+        <span style="display:inline-block;margin-top:4px;font-size:11px;padding:2px 8px;border-radius:10px;background:${ind.color}22;color:${ind.color};font-weight:600">${ind.label}</span>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:var(--t4);font-family:'DM Mono',monospace">注册于</div>
+        <div style="font-size:12px;color:var(--t2)">${new Date(u.created).toLocaleDateString('zh-CN')}</div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 /* ── FIREBASE DATA ── */
@@ -930,16 +1190,29 @@ function loadUserData(){
 }
 async function saveModalData(){
   const get=id=>parseInt(document.getElementById(id)?.value)||0;
+  const period=document.getElementById('m-period')?.value||'30';
+  const now=new Date();
   const data={
     followers:get('m-followers'),likes:get('m-likes'),saves:get('m-saves'),
     views:get('m-views'),newFollowers:get('m-newfollowers'),
     inquiries:get('m-inquiries'),comments:get('m-comments'),posts:get('m-posts'),
-    updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    period:parseInt(period),
+    updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
+    updatedDate:now.toLocaleDateString('zh-CN'),
+    industry: currentUser.industry||'recruit'
   };
+  // Daily average normalised values
+  data.dailyViews    = Math.round(data.views / data.period);
+  data.dailyFollowers= Math.round(data.newFollowers / data.period);
   try{
-    await db.collection('userData').doc(getUserId()).set(data,{merge:true});
+    const uid=getUserId();
+    // Save as current data
+    await db.collection('userData').doc(uid).set(data,{merge:true});
+    // Also save snapshot for history
+    await db.collection('userData').doc(uid).collection('snapshots').add(data);
     userData=data; recalcScores();
-    closeDataModal(); toast('✓ 数据已保存，健康分数已更新');
+    if(document.getElementById('view-profile').classList.contains('active')) renderSmartSuggestions();
+    closeDataModal(); toast('✓ 数据已保存并记录快照');
   }catch(e){toast('保存失败：'+e.message);}
 }
 async function saveAccountData(){
@@ -1157,13 +1430,15 @@ function showDayDetail(dayNum){
 }
 
 /* ── VIEWS ── */
-const viewTitles={dashboard:'Dashboard',calendar:'内容日历',data:'数据录入'};
+const viewTitles={dashboard:'Dashboard',calendar:'内容日历',data:'数据录入',profile:'我的资料 My Profile',admin:'管理员控制台 Admin'};
 function switchView(name,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const v=document.getElementById('view-'+name); if(v)v.classList.add('active');
   if(btn)btn.classList.add('active');
   const t=document.getElementById('view-title'); if(t)t.textContent=viewTitles[name]||name;
+  if(name==='profile') renderProfileView();
+  if(name==='admin'){ loadAllUsers(); }
 }
 
 /* ── MODAL ── */
@@ -1186,6 +1461,20 @@ function copyId(id,btn){
 
 /* ── MISC ── */
 function comingSoon(){toast('🚀 即将推出 — 敬请期待！');}
+
+function setPeriod(days, btn){
+  document.getElementById('m-period').value = days;
+  ['period-7','period-30'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.style.border='2px solid var(--bg3)';
+    el.style.background='var(--bg1)';
+    el.style.color='var(--t2)';
+  });
+  btn.style.border='2px solid var(--xhs)';
+  btn.style.background='var(--xhs-l)';
+  btn.style.color='var(--xhs)';
+}
 
 /* ── INIT DATE ── */
 const now = new Date();
