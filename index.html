@@ -1548,7 +1548,7 @@ function renderSmartSuggestions(){
         <div style="font-size:13px;color:var(--t2);padding:8px 0;border-bottom:1px solid ${ind.color}20;font-style:italic">"${h}"</div>
       `).join('')}
     </div>
-    ${suggestions.map(s=>`
+    ${suggestions.filter(s=>s&&s.color).map(s=>`
       <div style="background:#fff;border-radius:12px;padding:16px;margin-bottom:10px;border:2px solid ${s.color}22">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
           <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;background:${s.color}15;color:${s.color}">${s.tag}</span>
@@ -1832,12 +1832,15 @@ async function saveModalData(){
     const uid=getUserId();
     await db.collection('userData').doc(uid).set(data,{merge:true});
     try{ await db.collection('userData').doc(uid).collection('snapshots').add({...data,savedAt:firebase.firestore.FieldValue.serverTimestamp()}); }catch(e2){}
-    userData={...userData,...data};
-    recalcScores();
-    const profView=document.getElementById('view-profile');
-    if(profView?.classList.contains('active')) renderSmartSuggestions();
+    // Let onSnapshot handle the UI update naturally
+    // But also update local cache immediately
+    userData = Object.assign({}, userData, data);
+    // Safely update UI
+    setTimeout(()=>{
+      try { recalcScores(); } catch(e){ console.warn('recalc err:',e); }
+    }, 100);
     closeDataModal();
-    toast('✓ 数据已保存，健康分数已更新');
+    toast('✓ 数据已保存，健康分数更新中...');
   }catch(e){
     toast('保存失败：'+e.message);
   }finally{
@@ -1866,6 +1869,7 @@ function populateModalFields(){
 
 /* ── SCORE CALCULATION ── */
 function recalcScores(){
+  if(!userData || typeof userData !== 'object') return;
   const {views=0,likes=0,saves=0,newFollowers=0,inquiries=0,comments=0,posts=1,followers=1}=userData;
   const postsN=Math.max(posts,1); const viewsN=Math.max(views,1);
 
@@ -1915,7 +1919,7 @@ function recalcScores(){
   const qi=document.getElementById('q-inquiries'); if(qi)qi.textContent=inquiries;
   updateProgress();
   // Render smart tips on dashboard
-  renderDashSmartTips();
+  try{ renderDashSmartTips(); }catch(e){ console.warn('SmartTips error:',e); }
 }
 
 function renderDashSmartTips(){
@@ -1931,7 +1935,7 @@ function renderDashSmartTips(){
     return;
   }
   // Show top 2 tips on dashboard
-  el.innerHTML=suggestions.slice(0,2).map(s=>`
+  el.innerHTML=suggestions.filter(s=>s&&s.color).slice(0,2).map(s=>`
     <div style="padding:12px 0;border-bottom:1px solid var(--bg3);display:flex;gap:12px;align-items:flex-start">
       <span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;background:${s.color}15;color:${s.color};white-space:nowrap;margin-top:2px">${s.tag}</span>
       <div>
