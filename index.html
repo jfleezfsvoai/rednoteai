@@ -383,14 +383,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 <!-- ══════════════════════════════════════
      LANDING PAGE
 ══════════════════════════════════════ -->
-<div id="page-loading" class="page active" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#fff;position:fixed;inset:0;z-index:9999">
-  <div style="text-align:center">
-    <div style="width:48px;height:48px;background:var(--xhs);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px;margin:0 auto 16px">X</div>
-    <div style="font-size:15px;color:var(--t3)">正在加载...</div>
-  </div>
-</div>
-
-<div id="page-land" class="page land">
+<div id="page-land" class="page active land">
   <nav class="nav">
     <div class="nav-logo">
       <div class="nav-logo-mark">X</div>
@@ -810,7 +803,6 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script>
 /* ── FIREBASE ── */
 firebase.initializeApp({
@@ -821,8 +813,8 @@ firebase.initializeApp({
   messagingSenderId:"846108564409",
   appId:"1:846108564409:web:df03212c9b0914ea37f468"
 });
-const db   = firebase.firestore();
-const auth = firebase.auth();
+const db = firebase.firestore();
+let currentUser = null;
 
 /* ── TOAST ── */
 function toast(msg,dur=2400){
@@ -859,37 +851,38 @@ function switchAuthTab(tab){
   document.getElementById('form-register').style.display=tab==='register'?'block':'none';
   document.querySelectorAll('.auth-tab').forEach((b,i)=>b.classList.toggle('active',(i===0&&tab==='login')||(i===1&&tab==='register')));
 }
-async function doLogin(){
-  const email=document.getElementById('login-email').value;
+function doLogin(){
+  const email=document.getElementById('login-email').value.trim();
   const pwd=document.getElementById('login-pwd').value;
   const errEl=document.getElementById('login-error');
   errEl.style.display='none';
-  try{
-    await auth.signInWithEmailAndPassword(email,pwd);
-    goApp();
-  }catch(e){
-    errEl.textContent=e.code==='auth/user-not-found'?'找不到此账号，请先注册':e.code==='auth/wrong-password'?'密码错误，请重试':'登录失败：'+e.message;
-    errEl.style.display='block';
-  }
+  if(!email){errEl.textContent='请输入邮箱';errEl.style.display='block';return;}
+  if(!pwd){errEl.textContent='请输入密码';errEl.style.display='block';return;}
+  const users=JSON.parse(localStorage.getItem('xhs_users')||'{}');
+  if(!users[email]){errEl.textContent='找不到此账号，请先注册';errEl.style.display='block';return;}
+  if(users[email].pwd!==btoa(pwd)){errEl.textContent='密码错误，请重试';errEl.style.display='block';return;}
+  currentUser={email,name:users[email].name};
+  goApp();
 }
-async function doRegister(){
+function doRegister(){
   const name=document.getElementById('reg-name').value.trim();
-  const email=document.getElementById('reg-email').value;
+  const email=document.getElementById('reg-email').value.trim();
   const pwd=document.getElementById('reg-pwd').value;
   const errEl=document.getElementById('reg-error');
   errEl.style.display='none';
   if(!name){errEl.textContent='请输入你的名字';errEl.style.display='block';return;}
-  try{
-    const cred=await auth.createUserWithEmailAndPassword(email,pwd);
-    await cred.user.updateProfile({displayName:name});
-    goApp();
-  }catch(e){
-    errEl.textContent=e.code==='auth/email-already-in-use'?'此邮箱已注册，请直接登录':e.code==='auth/weak-password'?'密码太简单，请至少 6 位':'注册失败：'+e.message;
-    errEl.style.display='block';
-  }
+  if(!email||!email.includes('@')){errEl.textContent='请输入有效的邮箱';errEl.style.display='block';return;}
+  if(!pwd||pwd.length<6){errEl.textContent='密码至少 6 位';errEl.style.display='block';return;}
+  const users=JSON.parse(localStorage.getItem('xhs_users')||'{}');
+  if(users[email]){errEl.textContent='此邮箱已注册，请直接登录';errEl.style.display='block';return;}
+  users[email]={name,pwd:btoa(pwd),created:Date.now()};
+  localStorage.setItem('xhs_users',JSON.stringify(users));
+  currentUser={email,name};
+  goApp();
 }
 function doLogout(){
-  auth.signOut().then(()=>showPage('land'));
+  currentUser=null;
+  showPage('land');
 }
 
 /* ── APP INIT ── */
@@ -897,8 +890,7 @@ let userData={};
 let doneSet=new Set(JSON.parse(localStorage.getItem('xhs_done')||'[]'));
 
 function initApp(){
-  const user=auth.currentUser;
-  const name=user?.displayName||user?.email?.split('@')[0]||'创作者';
+  const name=currentUser?.name||currentUser?.email?.split('@')[0]||'创作者';
   const av=name.charAt(0).toUpperCase();
   const el=id=>document.getElementById(id);
   if(el('user-name'))el('user-name').textContent=name;
@@ -917,7 +909,7 @@ function initApp(){
 
 /* ── FIREBASE DATA ── */
 function getUserId(){
-  return auth.currentUser?.uid||'demo';
+  return currentUser?.email ? btoa(currentUser.email).replace(/[^a-zA-Z0-9]/g,'').slice(0,20) : 'demo';
 }
 function loadUserData(){
   setSyncStatus('loading','连接中');
@@ -1195,37 +1187,12 @@ function copyId(id,btn){
 /* ── MISC ── */
 function comingSoon(){toast('🚀 即将推出 — 敬请期待！');}
 
-/* ── AUTH STATE LISTENER ── */
+/* ── INIT DATE ── */
 const now = new Date();
 const _dw = ['日','一','二','三','四','五','六'];
 const _dateStr = now.getFullYear()+'年'+(now.getMonth()+1)+'月'+now.getDate()+'日 星期'+_dw[now.getDay()];
 const gd = document.getElementById('greet-date');
 if(gd) gd.textContent = '今天是 ' + _dateStr;
-
-// 3 second hard fallback — if Firebase never responds, go to landing
-const _fallback = setTimeout(()=>{
-  if(document.getElementById('page-loading').classList.contains('active')){
-    showPage('land');
-  }
-}, 3000);
-
-auth.onAuthStateChanged(
-  user => {
-    clearTimeout(_fallback);
-    if(document.getElementById('page-loading').classList.contains('active')){
-      if(user){
-        showPage('app');
-        initApp();
-      } else {
-        showPage('land');
-      }
-    }
-  },
-  err => {
-    clearTimeout(_fallback);
-    showPage('land');
-  }
-);
 </script>
 </body>
 </html>
