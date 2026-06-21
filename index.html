@@ -1425,6 +1425,7 @@ async function initApp(){
 
   // Update sidebar industry tag
   renderIndustryBadgeSidebar();
+  setTimeout(loadAvatar, 800);
 }
 
 function renderIndustryBadgeSidebar(){
@@ -2383,56 +2384,84 @@ function uploadAvatar(input){
 }
 
 function setAvatarUI(url){
-  const isDefault = !url || url === DEFAULT_AVATAR;
-  // Sidebar avatar
+  const src = (url && url.length > 10) ? url : DEFAULT_AVATAR;
+
+  // ── Sidebar avatar ──
   const avImg = document.getElementById('user-av-img');
   const avTxt = document.getElementById('user-av-txt');
-  if(avImg && avTxt){
-    if(isDefault){
-      avImg.src = DEFAULT_AVATAR;
-      avImg.style.display = 'block';
-      avTxt.style.display = 'none';
-    } else {
-      avImg.src = url;
-      avImg.style.display = 'block';
-      avTxt.style.display = 'none';
-    }
+  if(avImg){
+    avImg.src = src;
+    avImg.style.display = 'block';
+    avImg.style.width = '100%';
+    avImg.style.height = '100%';
+    avImg.style.objectFit = 'cover';
+    avImg.style.borderRadius = '10px';
   }
-  // Profile page avatar
+  if(avTxt) avTxt.style.display = 'none';
+
+  // ── Profile page avatar ──
   const profImg = document.getElementById('prof-av-img');
   const profTxt = document.getElementById('prof-av-txt');
-  if(profImg && profTxt){
-    profImg.src = url || DEFAULT_AVATAR;
+  if(profImg){
+    profImg.src = src;
     profImg.style.display = 'block';
-    profTxt.style.display = 'none';
+    profImg.style.width = '100%';
+    profImg.style.height = '100%';
+    profImg.style.objectFit = 'cover';
   }
+  if(profTxt) profTxt.style.display = 'none';
 }
 
 async function loadAvatar(){
   const uid = auth.currentUser?.uid; if(!uid)return;
+
+  // 1. Check localStorage first (fastest)
+  const local = localStorage.getItem('avatar_'+uid);
+  if(local && local.length > 100){
+    setAvatarUI(local);
+    // Still try Firestore in background
+  }
+
+  // 2. Check Firestore
   try{
     const doc = await db.collection('profiles').doc(uid).get();
-    if(doc.exists && doc.data().avatarUrl){
-      setAvatarUI(doc.data().avatarUrl);
-      return;
+    if(doc.exists){
+      const avatarUrl = doc.data().avatarUrl;
+      if(avatarUrl && avatarUrl.length > 100){
+        setAvatarUI(avatarUrl);
+        // Sync to localStorage
+        try{ localStorage.setItem('avatar_'+uid, avatarUrl); }catch(e){}
+        return;
+      }
     }
-  }catch(e){}
-  // Check localStorage fallback
-  const local = localStorage.getItem('avatar_'+uid);
-  if(local){ setAvatarUI(local); return; }
-  // Default: use square logo for admin, initials for others
+  }catch(e){ console.log('Avatar load error:', e); }
+
+  // 3. Fallback
+  if(local && local.length > 100){
+    setAvatarUI(local);
+    return;
+  }
+
+  // 4. Default — admin always gets logo, users get initials
   if(currentUser?.isAdmin){
     setAvatarUI(DEFAULT_AVATAR);
   } else {
-    // Show initials
+    // Show initials in sidebar
     const avImg = document.getElementById('user-av-img');
     const avTxt = document.getElementById('user-av-txt');
     if(avImg) avImg.style.display = 'none';
-    if(avTxt){ avTxt.style.display = 'flex'; avTxt.textContent = (currentUser?.name||'U').charAt(0).toUpperCase(); }
+    if(avTxt){
+      avTxt.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:16px;font-weight:700;color:#fff';
+      avTxt.textContent = (currentUser?.name||'U').charAt(0).toUpperCase();
+    }
+    // Show initials in profile
     const pImg = document.getElementById('prof-av-img');
     const pTxt = document.getElementById('prof-av-txt');
     if(pImg) pImg.style.display = 'none';
-    if(pTxt){ pTxt.style.display = 'flex'; pTxt.textContent = (currentUser?.name||'U').charAt(0).toUpperCase(); }
+    if(pTxt){
+      pTxt.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:32px;font-weight:700;color:#fff';
+      pTxt.textContent = (currentUser?.name||'U').charAt(0).toUpperCase();
+    }
   }
 }
 
