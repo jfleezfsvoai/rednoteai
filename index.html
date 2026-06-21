@@ -667,13 +667,19 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo">
-          <div class="sidebar-logo-mark">X</div>
+          <img src="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png" alt="RedNote.ai" style="width:36px;height:36px;object-fit:contain;border-radius:10px;flex-shrink:0">
           <div><div class="sidebar-logo-text"><span style="color:var(--xhs)">RedNote</span><span style="color:var(--t3)">.ai</span></div><div class="sidebar-logo-sub">AI Content OS · SVO.ai</div></div>
         </div>
       </div>
-      <div class="sidebar-user">
-        <div class="user-avatar" id="user-av">J</div>
-        <div><div class="user-name" id="user-name">Jeffer</div><div class="user-plan">Creator Plan</div></div>
+      <div class="sidebar-user" style="cursor:pointer" onclick="switchView('profile',document.getElementById('profile-nav'))">
+        <div class="user-avatar" id="user-av" style="overflow:hidden;padding:0">
+          <img id="user-av-img" src="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:10px;display:none">
+          <span id="user-av-txt" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:16px;font-weight:700">J</span>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div class="user-name" id="user-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Jeffer</div>
+          <div class="user-plan" id="user-plan-badge">Creator Plan</div>
+        </div>
       </div>
       <nav class="sidebar-nav">
         <div class="nav-section-label">主菜单</div>
@@ -844,13 +850,21 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
         <!-- ── PROFILE VIEW ── -->
         <div id="view-profile" class="view">
           <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);overflow:hidden;margin-bottom:16px">
-            <div style="background:linear-gradient(135deg,var(--xhs) 0%,#CC1A32 100%);padding:32px 28px;display:flex;align-items:center;gap:20px">
-              <div style="width:64px;height:64px;border-radius:20px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;flex-shrink:0" id="prof-av">J</div>
-              <div>
+            <div style="background:linear-gradient(135deg,var(--xhs) 0%,#CC1A32 100%);padding:32px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+              <div style="position:relative;flex-shrink:0">
+                <div style="width:80px;height:80px;border-radius:22px;overflow:hidden;border:3px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center" id="prof-av">
+                  <img id="prof-av-img" src="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png" alt="Avatar" style="width:100%;height:100%;object-fit:cover;display:none">
+                  <span id="prof-av-txt" style="font-size:32px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;width:100%;height:100%">J</span>
+                </div>
+                <label for="av-upload" style="position:absolute;bottom:-4px;right:-4px;width:26px;height:26px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2);font-size:13px" title="更换头像">✏️</label>
+                <input type="file" id="av-upload" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
+              </div>
+              <div style="flex:1;min-width:160px">
                 <div style="font-size:20px;font-weight:700;color:#fff" id="prof-name">—</div>
                 <div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:3px" id="prof-email">—</div>
                 <div style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:12px;color:#fff;font-weight:600" id="prof-industry-badge">—</div>
               </div>
+              <button onclick="resetAvatar()" style="font-size:11px;padding:6px 12px;border-radius:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;align-self:flex-start">重置头像</button>
             </div>
             <div style="padding:24px 28px">
               <div style="font-size:14px;font-weight:600;color:var(--t1);margin-bottom:14px">更改行业 Change Industry</div>
@@ -1271,6 +1285,7 @@ async function initApp(){
   buildCalendar();
   updateProgress();
   loadUserData();
+  loadAvatar();
 
   // Seed admin profile in Firestore if needed
   if(currentUser.email===ADMIN_EMAIL){
@@ -1400,7 +1415,9 @@ function renderUserList(users){
     const expiryHtml=isBlue&&expiry?`<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:${daysLeft>30?'#EDFAF3':daysLeft>7?'#FFF8ED':'var(--xhs-l)'};color:${daysLeft>30?'var(--green)':daysLeft>7?'var(--amber)':'var(--xhs)'};font-weight:600;margin-left:4px">蓝勾到期 ${daysLeft}天</span>`:'';
     return `
     <div style="display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:16px 0;border-bottom:1px solid var(--bg3)" id="urow-${u.id}">
-      <div style="width:42px;height:42px;border-radius:12px;background:${isStaff?'#EFF6FF':isBlue?'#EFF6FF':'var(--xhs-l)'};display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:${isStaff?'var(--blue)':'var(--xhs)'}">${(u.name||'U').charAt(0).toUpperCase()}</div>
+      <div style="width:42px;height:42px;border-radius:12px;overflow:hidden;background:${isStaff?'#EFF6FF':isBlue?'#EFF6FF':'var(--xhs-l)'};display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:${isStaff?'var(--blue)':'var(--xhs)'}">
+${u.avatarUrl?`<img src="${u.avatarUrl}" style="width:100%;height:100%;object-fit:cover">`:`${(u.name||'U').charAt(0).toUpperCase()}`}
+</div>
       <div>
         <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
           <span style="font-size:14px;font-weight:600;color:var(--t1)">${u.name||'—'}</span>
@@ -1894,7 +1911,10 @@ function showDayDetail(dayNum){
       <div class="dp-sec"><div class="dp-lbl">📢 结尾 CTA</div><div class="dp-cta">${day.cta}</div></div>
 
       <div class="dp-sec full" style="background:var(--xhs-l);border-top:3px solid var(--xhs)">
-        <div class="dp-lbl" style="color:var(--xhs)">✍️ XHS 文案（一键复制）${blueNote}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+          <div class="dp-lbl" style="color:var(--xhs);margin-bottom:0">✍️ 完整 XHS 文案（直接复制发布）</div>
+          <span style="font-size:10px;padding:3px 8px;border-radius:6px;background:${isBlue?'#EFF6FF':'rgba(255,36,66,.1)'};color:${isBlue?'#007AFF':'var(--xhs)'};font-weight:600">${isBlue?'✓ 蓝勾版本':'普通账号版本'}</span>
+        </div>
         <div style="font-size:12px;background:#fff;border-radius:10px;padding:14px;margin-top:8px;line-height:1.8;white-space:pre-wrap;border:1px solid var(--xhs-m)" id="cap-${day.d}">${caption}</div>
         <button class="copy-btn" style="background:var(--xhs);color:#fff;border-color:var(--xhs);margin-top:10px" onclick="copyId('cap-${day.d}',this)">📋 复制完整文案</button>
       </div>
@@ -1917,23 +1937,98 @@ function showDayDetail(dayNum){
 }
 
 function generateCaption(day, industry, isBlue){
-  const ind=INDUSTRY_CONTENT[industry]||INDUSTRY_CONTENT.recruit;
-  const hook=day.hook;
-  const body=day.body;
-  const cta=day.cta;
-  const tags=generateHashtags(day.t, industry, isBlue);
-  const moneyWord=isBlue?'RM':'🐎';
-  const earnWord=isBlue?'赚到':'贝兼到';
+  const ind = INDUSTRY_CONTENT[industry] || INDUSTRY_CONTENT.recruit;
+  const M   = isBlue ? 'RM' : '🐎';   // money
+  const E   = isBlue ? '赚' : '贝兼';  // earn
+  const ph  = isBlue ? '私信或直接联系我获取详情📞' : '私信我「了解」我来找你聊聊💬';
+  const tags = generateHashtags(day.t, industry, isBlue);
 
-  return `【标题 Title】
-${hook}
+  // Full captions per type
+  const captions = {
+    vlog: `${day.hook} ✨
 
-【正文 Caption】
-${body.replace(/RM/g,moneyWord).replace(/赚/g,earnWord)}
+今天想跟大家分享一下我真实的一天～
 
-${isBlue?'📞 有兴趣了解详情欢迎私信我或直接联系我':'📩 有兴趣了解详情欢迎私信我「了解」'}
+早上起来第一件事，打开手机看了一眼昨晚的数据📊
+${isBlue?'业绩又多了几笔，心情直接好了一整天 😊':'贝兼又多了几笔，心情直接好了一整天 😊'}
 
-${tags}`;
+我现在用的是 AI 自动化系统帮我处理大部分询单，
+自己只需要专注做内容就好 🐱
+
+说真的，当初选择这条路的时候也很迷茫，
+但坚持下来真的值得！
+
+你们现在在做什么副业呢？
+评论区告诉我 👇
+
+${ph}
+
+${tags}`,
+
+    edu: `${day.hook} 📚
+
+很多人问我这个问题，今天来认真回答一下！
+
+${day.body.split('\n').filter(l=>l.trim().startsWith('•')).map((l,i)=>{
+  const txt = l.replace('•','').trim();
+  const emojis=['💡','📌','✅','🔥','⭐'];
+  return `${emojis[i]||'👉'} ${txt.replace(/RM/g,M).replace(/赚/g,E)}`;
+}).join('\n')}
+
+老实说，这些都是我自己踩过坑之后总结出来的，
+希望对你们有帮助！
+
+如果你觉得有用，记得收藏⭐ 下次用得到
+有问题的话 ${ph}
+
+${tags}`,
+
+    proof: `${day.hook} 💪
+
+今天来做一下真实的数据复盘，不藏着掖着～
+
+${day.body.split('\n').filter(l=>l.trim().startsWith('•')).map(l=>{
+  return `📊 ${l.replace('•','').trim().replace(/RM/g,M).replace(/赚/g,E)}`;
+}).join('\n')}
+
+这些数字不是运气，是我一步一步按照系统去执行的结果。
+
+最重要的是：这套方法是可以复制的！
+普通人只要认真执行，都可以做到 💯
+
+想了解更多？${ph}
+
+${tags}`,
+
+    rec: `${day.hook} 🚀
+
+我只有有限的名额，给真正认真的人。
+
+关于我在做的事情，简单说一下：
+${day.body.split('\n').filter(l=>l.trim().startsWith('•')).map(l=>{
+  return `✅ ${l.replace('•','').trim().replace(/RM/g,M).replace(/赚/g,E)}`;
+}).join('\n')}
+
+我不想硬销售，只想找到同频的人一起做 💫
+如果你也想了解，${ph}
+
+${tags}`,
+
+    hook: `${day.hook} 🤔
+
+这个问题我被问了很多次，今天来认真聊聊！
+
+${day.body.split('\n').filter(l=>l.trim().startsWith('•')).map(l=>{
+  return `👉 ${l.replace('•','').trim().replace(/RM/g,M).replace(/赚/g,E)}`;
+}).join('\n')}
+
+你们觉得呢？评论区告诉我你的想法 💬
+或者有问题的话直接 ${ph}
+
+${tags}`,
+  };
+
+  return captions[day.t] || captions.hook;
 }
 
 function generateHashtags(type, industry, isBlue){
@@ -2030,7 +2125,7 @@ function switchView(name,btn){
   const v=document.getElementById('view-'+name); if(v)v.classList.add('active');
   if(btn)btn.classList.add('active');
   const t=document.getElementById('view-title'); if(t)t.textContent=viewTitles[name]||name;
-  if(name==='profile') renderProfileView();
+  if(name==='profile'){ renderProfileView(); loadAvatar(); }
   if(name==='admin'){ showAdminTab('users'); }
 }
 
@@ -2062,6 +2157,106 @@ function copyId(id,btn){
 
 /* ── MISC ── */
 function comingSoon(){toast('🚀 即将推出 — 敬请期待！');}
+
+/* ═══ AVATAR SYSTEM ═══ */
+const DEFAULT_AVATAR = 'https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png';
+
+function uploadAvatar(input){
+  const file = input.files[0]; if(!file)return;
+  if(file.size > 2*1024*1024){toast('图片不能超过 2MB');return;}
+  const reader = new FileReader();
+  reader.onload = async e => {
+    const dataUrl = e.target.result;
+    // Save to Firestore
+    const uid = auth.currentUser?.uid;
+    if(uid){
+      try{
+        await db.collection('profiles').doc(uid).set({avatarUrl:dataUrl},{merge:true});
+        setAvatarUI(dataUrl);
+        toast('✓ 头像已更新');
+      }catch(err){
+        // If too large for Firestore, save to localStorage
+        localStorage.setItem('avatar_'+uid, dataUrl);
+        setAvatarUI(dataUrl);
+        toast('✓ 头像已更新（本地）');
+      }
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function setAvatarUI(url){
+  const isDefault = !url || url === DEFAULT_AVATAR;
+  // Sidebar avatar
+  const avImg = document.getElementById('user-av-img');
+  const avTxt = document.getElementById('user-av-txt');
+  if(avImg && avTxt){
+    if(isDefault){
+      avImg.src = DEFAULT_AVATAR;
+      avImg.style.display = 'block';
+      avTxt.style.display = 'none';
+    } else {
+      avImg.src = url;
+      avImg.style.display = 'block';
+      avTxt.style.display = 'none';
+    }
+  }
+  // Profile page avatar
+  const profImg = document.getElementById('prof-av-img');
+  const profTxt = document.getElementById('prof-av-txt');
+  if(profImg && profTxt){
+    profImg.src = url || DEFAULT_AVATAR;
+    profImg.style.display = 'block';
+    profTxt.style.display = 'none';
+  }
+}
+
+async function loadAvatar(){
+  const uid = auth.currentUser?.uid; if(!uid)return;
+  try{
+    const doc = await db.collection('profiles').doc(uid).get();
+    if(doc.exists && doc.data().avatarUrl){
+      setAvatarUI(doc.data().avatarUrl);
+      return;
+    }
+  }catch(e){}
+  // Check localStorage fallback
+  const local = localStorage.getItem('avatar_'+uid);
+  if(local){ setAvatarUI(local); return; }
+  // Default: use square logo for admin, initials for others
+  if(currentUser?.isAdmin){
+    setAvatarUI(DEFAULT_AVATAR);
+  } else {
+    // Show initials
+    const avImg = document.getElementById('user-av-img');
+    const avTxt = document.getElementById('user-av-txt');
+    if(avImg) avImg.style.display = 'none';
+    if(avTxt){ avTxt.style.display = 'flex'; avTxt.textContent = (currentUser?.name||'U').charAt(0).toUpperCase(); }
+    const pImg = document.getElementById('prof-av-img');
+    const pTxt = document.getElementById('prof-av-txt');
+    if(pImg) pImg.style.display = 'none';
+    if(pTxt){ pTxt.style.display = 'flex'; pTxt.textContent = (currentUser?.name||'U').charAt(0).toUpperCase(); }
+  }
+}
+
+function resetAvatar(){
+  const uid = auth.currentUser?.uid; if(!uid)return;
+  localStorage.removeItem('avatar_'+uid);
+  db.collection('profiles').doc(uid).set({avatarUrl:''},{merge:true}).catch(()=>{});
+  if(currentUser?.isAdmin){
+    setAvatarUI(DEFAULT_AVATAR);
+  } else {
+    const avImg = document.getElementById('user-av-img');
+    const avTxt = document.getElementById('user-av-txt');
+    if(avImg) avImg.style.display = 'none';
+    if(avTxt){ avTxt.style.display = 'flex'; avTxt.textContent = (currentUser?.name||'U').charAt(0).toUpperCase(); }
+    const pImg = document.getElementById('prof-av-img');
+    const pTxt = document.getElementById('prof-av-txt');
+    if(pImg) pImg.style.display = 'none';
+    if(pTxt){ pTxt.style.display = 'flex'; pTxt.textContent = (currentUser?.name||'U').charAt(0).toUpperCase(); }
+  }
+  toast('✓ 头像已重置为默认');
+}
 
 function switchViewMob(name, btn){
   // Update bottom nav active state
