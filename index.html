@@ -672,9 +672,8 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
         </div>
       </div>
       <div class="sidebar-user" style="cursor:pointer" onclick="switchView('profile',document.getElementById('profile-nav'))">
-        <div class="user-avatar" id="user-av" style="overflow:hidden;padding:0">
-          <img id="user-av-img" src="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:10px;display:none">
-          <span id="user-av-txt" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:16px;font-weight:700">J</span>
+        <div style="width:36px;height:36px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--xhs);display:flex;align-items:center;justify-content:center" id="user-av">
+          <img id="user-av-img" src="https://jfleezfsvoai.github.io/rednoteai/rednotesquare.png" alt="Avatar" style="width:36px;height:36px;object-fit:cover;border-radius:10px">
         </div>
         <div style="flex:1;min-width:0">
           <div class="user-name" id="user-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Jeffer</div>
@@ -2386,29 +2385,14 @@ function uploadAvatar(input){
 function setAvatarUI(url){
   const src = (url && url.length > 10) ? url : DEFAULT_AVATAR;
 
-  // ── Sidebar avatar ──
+  // Sidebar
   const avImg = document.getElementById('user-av-img');
-  const avTxt = document.getElementById('user-av-txt');
-  if(avImg){
-    avImg.src = src;
-    avImg.style.display = 'block';
-    avImg.style.width = '100%';
-    avImg.style.height = '100%';
-    avImg.style.objectFit = 'cover';
-    avImg.style.borderRadius = '10px';
-  }
-  if(avTxt) avTxt.style.display = 'none';
+  if(avImg){ avImg.src = src; avImg.style.cssText = 'width:36px;height:36px;object-fit:cover;border-radius:10px'; }
 
-  // ── Profile page avatar ──
+  // Profile page
   const profImg = document.getElementById('prof-av-img');
   const profTxt = document.getElementById('prof-av-txt');
-  if(profImg){
-    profImg.src = src;
-    profImg.style.display = 'block';
-    profImg.style.width = '100%';
-    profImg.style.height = '100%';
-    profImg.style.objectFit = 'cover';
-  }
+  if(profImg){ profImg.src = src; profImg.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block'; }
   if(profTxt) profTxt.style.display = 'none';
 }
 
@@ -2446,13 +2430,14 @@ async function loadAvatar(){
   if(currentUser?.isAdmin){
     setAvatarUI(DEFAULT_AVATAR);
   } else {
-    // Show initials in sidebar
+    // Show initials in sidebar for non-admin
     const avImg = document.getElementById('user-av-img');
-    const avTxt = document.getElementById('user-av-txt');
-    if(avImg) avImg.style.display = 'none';
-    if(avTxt){
-      avTxt.style.cssText = 'display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:16px;font-weight:700;color:#fff';
-      avTxt.textContent = (currentUser?.name||'U').charAt(0).toUpperCase();
+    const avBox = document.getElementById('user-av');
+    if(avImg){
+      avImg.style.display = 'none';
+    }
+    if(avBox){
+      avBox.innerHTML = `<span style="color:#fff;font-size:16px;font-weight:700">${(currentUser?.name||'U').charAt(0).toUpperCase()}</span>`;
     }
     // Show initials in profile
     const pImg = document.getElementById('prof-av-img');
