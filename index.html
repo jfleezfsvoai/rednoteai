@@ -1710,7 +1710,7 @@ function loadUserData(){
     console.error(err);
   });
 }
-async async function saveModalData(){
+async function saveModalData(){
   const get=id=>parseInt(document.getElementById(id)?.value)||0;
   const period=parseInt(document.getElementById('m-period')?.value||'30');
   const blueToggle=document.getElementById('blue-toggle');
