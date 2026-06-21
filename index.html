@@ -2496,14 +2496,21 @@ function toggleCalBlue(el, dayNum){
   if(dot) dot.style.left = next ? '24px' : '2px';
   if(!userData) userData = {};
   userData.blueVerified = next;
-  // Re-render caption section only
-  const capEl = document.getElementById('cap-'+dayNum);
-  if(capEl){
-    const day = DAYS.find(x=>x.d===dayNum);
-    const industry = currentUser?.industry||'recruit';
-    if(day) capEl.textContent = generateCaption(day, industry, next);
-  }
-  // Update toggle badge
+
+  const day = DAYS.find(x=>x.d===dayNum);
+  const industry = currentUser?.industry||'recruit';
+  if(!day) return;
+
+  // Update 标题 (title stays same, only body/hashtag changes)
+  // Update 文案 CAPTION body
+  const bodyEl = document.getElementById('cap-body-'+dayNum);
+  if(bodyEl) bodyEl.textContent = generateCaptionBody(day, industry, next);
+
+  // Update hashtag
+  const tagsEl = document.getElementById('cap-tags-'+dayNum);
+  if(tagsEl) tagsEl.textContent = generateHashtags(day.t, industry, next);
+
+  // Update badge
   const blueNote = document.getElementById('blue-note-'+dayNum);
   if(blueNote) blueNote.textContent = next ? '✓ 蓝勾版本' : '普通版本';
 }
