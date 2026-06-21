@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XHS Creator OS — 小红书创作者系统</title>
+<title>RedNote.ai — 小红书 AI 内容系统</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -425,7 +425,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
   <nav class="nav">
     <div class="nav-logo">
       <div class="nav-logo-mark">X</div>
-      <span class="nav-logo-text">XHS Creator OS</span>
+      <span class="nav-logo-text" style="color:var(--xhs)">RedNote<span style="color:var(--t1)">.ai</span></span>
     </div>
     <div class="nav-links">
       <a class="nav-link" onclick="scrollToSection('#features')">功能</a>
@@ -440,8 +440,8 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge"><span class="hero-badge-dot"></span> 专为小红书创作者打造</div>
-    <h1>你的小红书<br><span>增长操作系统</span></h1>
+    <div class="hero-badge"><span class="hero-badge-dot"></span> 小红书创作者的 AI 内容系统</div>
+    <h1>AI 驱动的<br><span>小红书内容系统</span></h1>
     <p class="hero-sub">AI 生成文案 · 智能内容日历 · 账号健康分析 · 一个平台管理你的整个创作生意</p>
     <div class="hero-cta">
       <button class="btn btn-xhs btn-xl" onclick="goAuth('register')">免费开始使用 →</button>
@@ -460,7 +460,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
         <div class="mockup-dot" style="background:#FF5F57"></div>
         <div class="mockup-dot" style="background:#FFBD2E;margin-left:6px"></div>
         <div class="mockup-dot" style="background:#28CA41;margin-left:6px"></div>
-        <div class="mockup-url">xhs-creator-os.app/dashboard</div>
+        <div class="mockup-url">rednote.ai/dashboard</div>
       </div>
       <div class="mockup-body">
         <div class="mockup-sidebar">
@@ -583,9 +583,9 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 
   <!-- FOOTER -->
   <footer class="land-footer">
-    <div class="land-footer-logo">XHS Creator OS</div>
+    <div class="land-footer-logo">RedNote.ai</div>
     <div class="land-footer-sub">专为小红书创作者和 AI 电商创业者打造</div>
-    <div class="land-footer-bottom">© 2025 XHS Creator OS · 由 SVO.ai 强力驱动</div>
+    <div class="land-footer-bottom">© 2025 RedNote.ai · Powered by SVO.ai</div>
   </footer>
 </div>
 
@@ -616,7 +616,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
         <!-- LOGIN -->
         <div id="form-login">
           <h2 class="auth-title">欢迎回来 👋</h2>
-          <p class="auth-sub">登录你的 XHS Creator OS 账号</p>
+          <p class="auth-sub">登录你的 RedNote.ai 账号</p>
           <div class="auth-error" id="login-error"></div>
           <div class="form-group"><label class="form-label">电子邮箱</label><input class="form-input" type="email" id="login-email" placeholder="your@email.com"></div>
           <div class="form-group"><label class="form-label">密码</label><input class="form-input" type="password" id="login-pwd" placeholder="••••••••"></div>
@@ -662,7 +662,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
       <div class="sidebar-header">
         <div class="sidebar-logo">
           <div class="sidebar-logo-mark">X</div>
-          <div><div class="sidebar-logo-text">Creator OS</div><div class="sidebar-logo-sub">XHS · SVO.ai</div></div>
+          <div><div class="sidebar-logo-text"><span style="color:var(--xhs)">RedNote</span><span style="color:var(--t3)">.ai</span></div><div class="sidebar-logo-sub">AI Content OS · SVO.ai</div></div>
         </div>
       </div>
       <div class="sidebar-user">
@@ -769,6 +769,18 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
             <div class="qs-card qs-green"><div class="qs-label">总涨粉</div><div class="qs-val" id="q-follows">0</div><div class="qs-sub">录入数据统计</div></div>
             <div class="qs-card qs-blue"><div class="qs-label">总询问</div><div class="qs-val" id="q-inquiries">0</div><div class="qs-sub">潜在代理线索</div></div>
             <div class="qs-card qs-pur"><div class="qs-label">内容完成</div><div class="qs-val" id="q-done">0<span style="font-size:16px;font-weight:500;color:var(--t4)">/30</span></div><div class="qs-sub">本月日历进度</div></div>
+          </div>
+
+          <!-- SMART TIPS ON DASHBOARD -->
+          <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px;margin-top:16px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+              <div>
+                <div style="font-size:15px;font-weight:700;color:var(--t1)">🧠 智能内容建议 Smart Tips</div>
+                <div style="font-size:12px;color:var(--t3);margin-top:3px">根据你的行业和账号数据自动生成专属建议</div>
+              </div>
+              <button onclick="openDataModal()" style="font-size:12px;padding:6px 12px;border:1.5px solid var(--xhs);border-radius:8px;background:var(--xhs-l);color:var(--xhs);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">+ 更新数据</button>
+            </div>
+            <div id="dash-smart-content"><div style="font-size:13px;color:var(--t4)">录入数据后自动生成 ↑ 点击「更新数据」开始</div></div>
           </div>
         </div>
 
@@ -911,6 +923,15 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
       <div class="inp2-group"><label class="inp2-label">本月发帖数 <span style="color:var(--t4);font-weight:400">Posts Published</span></label><input class="inp2" type="number" id="m-posts" placeholder="例：18"><div style="font-size:11px;color:var(--t4);margin-top:4px">📍 你这个月一共发了多少篇笔记</div></div>
     </div>
     <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--bg3)">
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg1);border-radius:10px;margin-bottom:14px;border:1.5px solid var(--bg3)">
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600;color:var(--t1)">✓ 蓝勾认证账号 Blue Tick Verified</div>
+          <div style="font-size:11px;color:var(--t4);margin-top:2px">开启后文案可包含电话和联系方式</div>
+        </div>
+        <div onclick="toggleBlue(this)" id="blue-toggle" style="width:44px;height:24px;border-radius:12px;background:var(--bg3);cursor:pointer;position:relative;transition:background .2s">
+          <div style="width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.2)"></div>
+        </div>
+      </div>
       <label style="font-size:13px;font-weight:600;color:var(--t2);display:block;margin-bottom:8px">这组数据是最近多少天的？<span style="color:var(--t4);font-weight:400"> (Data period)</span></label>
       <div style="display:flex;gap:8px">
         <button onclick="setPeriod(7,this)" style="flex:1;padding:9px;border-radius:10px;border:2px solid var(--bg3);background:var(--bg1);font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s" id="period-7">7天 Last 7 Days</button>
@@ -1307,6 +1328,7 @@ async function saveModalData(){
     views:get('m-views'),newFollowers:get('m-newfollowers'),
     inquiries:get('m-inquiries'),comments:get('m-comments'),posts:get('m-posts'),
     period:parseInt(period),
+    blueVerified:userData?.blueVerified||false,
     updatedAt:firebase.firestore.FieldValue.serverTimestamp(),
     updatedDate:now.toLocaleDateString('zh-CN'),
     industry: currentUser.industry||'recruit'
@@ -1395,6 +1417,32 @@ function recalcScores(){
   const qf=document.getElementById('q-follows'); if(qf)qf.textContent=newFollowers.toLocaleString();
   const qi=document.getElementById('q-inquiries'); if(qi)qi.textContent=inquiries;
   updateProgress();
+  // Render smart tips on dashboard
+  renderDashSmartTips();
+}
+
+function renderDashSmartTips(){
+  const el=document.getElementById('dash-smart-content'); if(!el)return;
+  if(!userData||Object.keys(userData).length===0){
+    el.innerHTML='<div style="font-size:13px;color:var(--t4)">录入数据后自动生成 ↑ 点击「更新数据」开始</div>';
+    return;
+  }
+  const industry=currentUser?.industry||'recruit';
+  const suggestions=getSmartSuggestions(userData,industry);
+  const ind=INDUSTRIES[industry]||INDUSTRIES.recruit;
+  el.innerHTML=`
+    <div style="background:${ind.color}11;border:1.5px solid ${ind.color}33;border-radius:12px;padding:12px 14px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:700;color:${ind.color};margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">📌 ${ind.label} 专属 Hook</div>
+      <div style="font-size:13px;color:var(--t2);font-style:italic">"${ind.hooks[0]}"</div>
+    </div>
+    ${suggestions.slice(0,2).map(s=>`
+      <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--bg3)">
+        <div style="font-size:18px;flex-shrink:0">${s.type.split(' ')[0]}</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--t1)">${s.type.replace(/^[^ ]+ /,'')}</div>
+          <div style="font-size:12px;color:var(--xhs);margin-top:2px">→ ${s.content}</div>
+        </div>
+      </div>`).join('')}`;
 }
 function generateTips(eng,grow,cont,conv,consist){
   const tips=[];
@@ -1516,13 +1564,29 @@ function showDayDetail(dayNum){
   document.querySelectorAll('.cc').forEach(c=>c.classList.remove('sel'));
   const cc=document.getElementById('cc'+dayNum); if(cc)cc.classList.add('sel');
   const panel=document.getElementById('detail-panel'); if(!panel)return;
+
+  const industry=currentUser?.industry||'recruit';
+  const ind=INDUSTRIES[industry]||INDUSTRIES.recruit;
+  const isBlue=userData?.blueVerified||false;
+  const blueNote=isBlue?'（已认证蓝勾账号，可正常写电话号码和联系方式）':'（普通账号，用🐎代替RM，贝兼代替赚，避免敏感词）';
+
+  // Generate XHS caption
+  const caption=generateCaption(day,industry,isBlue);
+  // Generate image prompts
+  const singlePrompt=generateSinglePrompt(day,industry);
+  const albumPrompt=generateAlbumPrompt(day,industry);
+
   panel.className='detail-panel open';
   panel.innerHTML=`
     <div class="dp-top">
       <span class="dp-badge">Day ${String(day.d).padStart(2,'0')}</span>
-      <div>
+      <div style="flex:1">
         <div class="dp-title">${day.title}</div>
-        <span class="dp-tag" style="color:${TC[day.t]};background:${TBG[day.t]};border:1.5px solid ${TBC[day.t]}">${TL[day.t]}</span>
+        <div style="display:flex;gap:8px;margin-top:7px;flex-wrap:wrap">
+          <span class="dp-tag" style="color:${TC[day.t]};background:${TBG[day.t]};border:1.5px solid ${TBC[day.t]}">${TL[day.t]}</span>
+          <span style="font-size:11px;padding:3px 10px;border-radius:20px;background:${ind.color}15;color:${ind.color};font-weight:600;border:1px solid ${ind.color}30">${ind.label}</span>
+          ${isBlue?'<span style="font-size:11px;padding:3px 10px;border-radius:20px;background:#EFF6FF;color:#007AFF;font-weight:600;border:1px solid #BAD7FF">✓ 蓝勾账号</span>':'<span style="font-size:11px;padding:3px 10px;border-radius:20px;background:var(--bg2);color:var(--t4);font-weight:600">普通账号</span>'}
+        </div>
       </div>
     </div>
     <div class="dp-grid">
@@ -1530,13 +1594,134 @@ function showDayDetail(dayNum){
       <div class="dp-sec"><div class="dp-lbl">🎯 Hook · 开场钩子</div><div class="dp-hook">"${day.hook}"</div></div>
       <div class="dp-sec full"><div class="dp-lbl">📝 Body 要点</div><div class="dp-txt" style="white-space:pre-line">${day.body}</div></div>
       <div class="dp-sec"><div class="dp-lbl">📢 结尾 CTA</div><div class="dp-cta">${day.cta}</div></div>
-      <div class="dp-sec">
-        <div class="dp-lbl">🎨 ChatGPT 封面图指令</div>
-        <div class="dp-img" id="dp-img-${day.d}">${day.img}</div>
-        <button class="copy-btn" onclick="copyId('dp-img-${day.d}',this)">复制图片指令</button>
+
+      <div class="dp-sec full" style="background:var(--xhs-l);border-top:3px solid var(--xhs)">
+        <div class="dp-lbl" style="color:var(--xhs)">✍️ XHS 文案（一键复制）${blueNote}</div>
+        <div style="font-size:12px;background:#fff;border-radius:10px;padding:14px;margin-top:8px;line-height:1.8;white-space:pre-wrap;border:1px solid var(--xhs-m)" id="cap-${day.d}">${caption}</div>
+        <button class="copy-btn" style="background:var(--xhs);color:#fff;border-color:var(--xhs);margin-top:10px" onclick="copyId('cap-${day.d}',this)">📋 复制完整文案</button>
+      </div>
+
+      <div class="dp-sec" style="border-top:2px solid var(--blue)">
+        <div class="dp-lbl" style="color:var(--blue)">🖼️ 单图 Single Image — ChatGPT Prompt</div>
+        <div style="font-size:11px;color:var(--t4);margin-bottom:6px">适合：简洁主题、数据展示、金句海报</div>
+        <div class="dp-img" id="single-${day.d}">${singlePrompt}</div>
+        <button class="copy-btn" onclick="copyId('single-${day.d}',this)">复制单图指令</button>
+      </div>
+
+      <div class="dp-sec" style="border-top:2px solid var(--purple)">
+        <div class="dp-lbl" style="color:var(--purple)">📚 多图 Album Style — ChatGPT Prompt</div>
+        <div style="font-size:11px;color:var(--t4);margin-bottom:6px">适合：教程步骤、产品对比、故事分享（3-9张）</div>
+        <div class="dp-img" id="album-${day.d}">${albumPrompt}</div>
+        <button class="copy-btn" onclick="copyId('album-${day.d}',this)">复制多图指令</button>
       </div>
     </div>`;
   panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function generateCaption(day, industry, isBlue){
+  const ind=INDUSTRY_CONTENT[industry]||INDUSTRY_CONTENT.recruit;
+  const hook=day.hook;
+  const body=day.body;
+  const cta=day.cta;
+  const tags=generateHashtags(day.t, industry, isBlue);
+  const moneyWord=isBlue?'RM':'🐎';
+  const earnWord=isBlue?'赚到':'贝兼到';
+
+  return `【标题 Title】
+${hook}
+
+【正文 Caption】
+${body.replace(/RM/g,moneyWord).replace(/赚/g,earnWord)}
+
+${isBlue?'📞 有兴趣了解详情欢迎私信我或直接联系我':'📩 有兴趣了解详情欢迎私信我「了解」'}
+
+${tags}`;
+}
+
+function generateHashtags(type, industry, isBlue){
+  const base={
+    vlog:['#创业日记','#副业创业','#养猫','#日常vlog','#真实记录'],
+    edu: ['#干货分享','#创业知识','#新手必看','#学习笔记','#实用技巧'],
+    proof:['#真实数据','#创业成果','#副业收入','#数据复盘','#真实案例'],
+    rec: ['#招募代理','#副业推荐','#在家创业','#时间自由','#被动收入'],
+    hook:['#你知道吗','#涨知识','#创业干货','#必看','#收藏备用'],
+  };
+  const indTags={
+    pet:    ['#宠物','#猫咪','#铲屎官','#宠物用品','#猫粮推荐'],
+    health: ['#健康生活','#养生','#保健品','#健康管理','#wellness'],
+    recruit:['#AI电商','#SVO','#网络创业','#副业赚钱','#电商创业'],
+    realty: ['#房地产','#买房攻略','#马来西亚房产','#投资房产','#置业'],
+    insurance:['#保险','#理财规划','#保障','#人寿保险','#保险攻略'],
+  };
+  const all=[...(base[type]||base.vlog),...(indTags[industry]||indTags.recruit)];
+  return all.map(t=>`${t}`).join(' ');
+}
+
+function generateSinglePrompt(day, industry){
+  const ind=INDUSTRIES[industry]||INDUSTRIES.recruit;
+  return `Create a single square (1:1) cover image for Xiaohongshu.
+
+TOPIC: ${day.title}
+TYPE: ${day.t==='vlog'?'Lifestyle/VLOG':'Educational/Info'}
+INDUSTRY: ${ind.en}
+
+DESIGN:
+- Bold headline text in Chinese: "${day.hook}"
+- Style: Clean, modern, premium feel
+- Color scheme: Primary red #FF2442 with white background
+- Include subtle industry icon: ${ind.label.split(' ')[0]}
+- Text must be readable as thumbnail (large bold font)
+- Bottom corner: small brand watermark area
+
+RULES:
+- No clutter, maximum 2 text elements
+- High contrast for mobile viewing
+- Flat design, no gradients
+- 1080x1080px, 1:1 ratio`;
+}
+
+function generateAlbumPrompt(day, industry){
+  const ind=INDUSTRIES[industry]||INDUSTRIES.recruit;
+  const slides=day.t==='edu'?generateEduSlides(day):generateStorySlides(day);
+  return `Create a ${slides.length}-slide album for Xiaohongshu (1:1 square each).
+
+TOPIC: ${day.title}
+INDUSTRY: ${ind.en}
+
+DESIGN SYSTEM (keep consistent across all slides):
+- Background: White (#FFFFFF)
+- Primary color: #FF2442 (red)
+- Font: Bold Chinese + English mix
+- Corner: Slide number indicator (1/N)
+- Bottom: Consistent brand bar
+
+SLIDES:
+${slides.map((s,i)=>`Slide ${i+1}: ${s}`).join('\n')}
+
+RULES:
+- Each slide must work standalone as thumbnail
+- Consistent visual style across all slides
+- Large readable text, minimal design
+- 1080x1080px each`;
+}
+
+function generateEduSlides(day){
+  const lines=day.body.split('\n').filter(l=>l.trim().startsWith('•')).slice(0,5);
+  return [
+    `COVER — Bold title: "${day.hook}" with hook visual`,
+    ...lines.map((l,i)=>`POINT ${i+1} — ${l.replace('•','').trim()}`),
+    `CTA — "${day.cta}" with call-to-action button design`,
+  ];
+}
+
+function generateStorySlides(day){
+  return [
+    `COVER — Attention-grabbing: "${day.hook}"`,
+    `PROBLEM — Visual showing the pain point or situation`,
+    `STORY — Key moment or turning point illustration`,
+    `RESULT — Outcome or data display`,
+    `CTA — "${day.cta}" with engagement prompt`,
+  ];
 }
 
 /* ── VIEWS ── */
@@ -1555,6 +1740,14 @@ function switchView(name,btn){
 function openDataModal(){
   populateModalFields();
   document.getElementById('data-modal').classList.add('open');
+  // Sync blue tick toggle
+  const bt=document.getElementById('blue-toggle');
+  if(bt){
+    const isBlue=userData?.blueVerified||false;
+    bt.style.background=isBlue?'#007AFF':'var(--bg3)';
+    const dot=bt.querySelector('div');
+    if(dot)dot.style.left=isBlue?'22px':'2px';
+  }
 }
 function closeDataModal(){document.getElementById('data-modal').classList.remove('open');}
 function closeModalOutside(e){if(e.target===document.getElementById('data-modal'))closeDataModal();}
@@ -1603,6 +1796,14 @@ function mobileMore(){
   document.body.appendChild(m);
   // Close on outside click
   setTimeout(()=>document.addEventListener('click',function h(e){if(!m.contains(e.target)){m.remove();document.removeEventListener('click',h);}},),100);
+}
+
+function toggleBlue(el){
+  const isOn = el.style.background === 'rgb(0, 122, 255)' || el.style.background === '#007AFF';
+  el.style.background = isOn ? 'var(--bg3)' : '#007AFF';
+  const dot = el.querySelector('div');
+  dot.style.left = isOn ? '2px' : '22px';
+  userData.blueVerified = !isOn;
 }
 
 function setPeriod(days, btn){
