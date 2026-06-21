@@ -789,14 +789,14 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
 
           <!-- SMART TIPS ON DASHBOARD -->
           <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px;margin-top:16px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px">
               <div>
-                <div style="font-size:15px;font-weight:700;color:var(--t1)">🧠 智能内容建议 Smart Tips</div>
-                <div style="font-size:12px;color:var(--t3);margin-top:3px">根据你的行业和账号数据自动生成专属建议</div>
+                <div style="font-size:17px;font-weight:700;color:var(--t1)">🧠 智能内容建议</div>
+                <div style="font-size:13px;color:var(--t3);margin-top:4px">根据你的行业 · 账号数据 · 增长阶段自动生成</div>
               </div>
-              <button onclick="openDataModal()" style="font-size:12px;padding:6px 12px;border:1.5px solid var(--xhs);border-radius:8px;background:var(--xhs-l);color:var(--xhs);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">+ 更新数据</button>
+              <button onclick="openDataModal()" style="font-size:13px;padding:9px 16px;border:1.5px solid var(--xhs);border-radius:10px;background:var(--xhs-l);color:var(--xhs);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600">+ 更新数据</button>
             </div>
-            <div id="dash-smart-content"><div style="font-size:13px;color:var(--t4)">录入数据后自动生成 ↑ 点击「更新数据」开始</div></div>
+            <div id="dash-smart-content"><div style="font-size:13px;color:var(--t4);padding:12px 0">录入数据后自动生成 → 点击右上角「更新数据」</div></div>
           </div>
         </div>
 
@@ -905,11 +905,7 @@ body{background:var(--bg1);color:var(--t1);font-family:'DM Sans',-apple-system,s
               <button class="save-btn" style="width:100%;padding:14px;font-size:15px" onclick="saveFullProfile()">保存所有资料 Save All Changes</button>
             </div>
           </div>
-          <div style="background:#fff;border-radius:var(--r2);box-shadow:var(--s1);padding:24px 28px">
-            <div style="font-size:15px;font-weight:700;color:var(--t1);margin-bottom:4px">🧠 智能内容建议 Smart Content Tips</div>
-            <div style="font-size:13px;color:var(--t3);margin-bottom:18px">根据你的行业和账号数据自动生成的专属建议</div>
-            <div id="smart-suggestions"><div style="font-size:13px;color:var(--t4)">录入账号数据后自动生成...</div></div>
-          </div>
+
         </div>
 
         <!-- ═══ SECTION: ADMIN CONSOLE ═══ -->
@@ -1482,8 +1478,6 @@ async function renderProfileView(){
       </div>`).join('');
   }
 
-  // Smart suggestions
-  renderSmartSuggestions();
 }
 
 async function saveFullProfile(){
@@ -1934,16 +1928,25 @@ function renderDashSmartTips(){
     el.innerHTML='<div style="font-size:13px;color:var(--t4)">数据不足，请录入更多数据</div>';
     return;
   }
-  // Show top 2 tips on dashboard
-  el.innerHTML=suggestions.filter(s=>s&&s.color).slice(0,2).map(s=>`
-    <div style="padding:12px 0;border-bottom:1px solid var(--bg3);display:flex;gap:12px;align-items:flex-start">
-      <span style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;background:${s.color}15;color:${s.color};white-space:nowrap;margin-top:2px">${s.tag}</span>
-      <div>
-        <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:3px">${s.title}</div>
-        <div style="font-size:12px;color:var(--xhs);line-height:1.5">→ ${s.action}</div>
+  const ind = INDUSTRIES[currentUser?.industry||'recruit'] || INDUSTRIES.recruit;
+  const indContent = INDUSTRY_CONTENT[currentUser?.industry||'recruit'] || INDUSTRY_CONTENT.recruit;
+
+  el.innerHTML =
+    // Industry hook box
+    `<div style="background:${ind.color}0F;border:1.5px solid ${ind.color}30;border-radius:12px;padding:16px 18px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:700;color:${ind.color};text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">${ind.label} · 专属 Hook 公式</div>
+      ${(indContent.hooks||[]).map(h=>`<div style="font-size:13px;color:var(--t2);padding:7px 0;border-bottom:1px solid ${ind.color}20;font-style:italic">"${h}"</div>`).join('')}
+    </div>`
+    // All suggestions
+    + suggestions.filter(s=>s&&s.color).map(s=>`
+    <div style="padding:16px;margin-bottom:10px;border-radius:12px;border:1.5px solid ${s.color}25;background:${s.color}06">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+        <span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;background:${s.color}18;color:${s.color};white-space:nowrap">${s.tag}</span>
+        <span style="font-size:14px;font-weight:600;color:var(--t1)">${s.title}</span>
       </div>
-    </div>`).join('')
-  +(suggestions.length>2?`<div style="font-size:12px;color:var(--t4);padding-top:10px;text-align:right"><a href="#" onclick="switchView('profile',document.getElementById('profile-nav'));return false" style="color:var(--xhs)">查看全部 ${suggestions.length} 条建议 →</a></div>`:'');
+      <div style="font-size:12px;color:var(--t3);margin-bottom:8px;line-height:1.6">${s.reason}</div>
+      <div style="font-size:13px;color:${s.color};font-weight:500;padding:10px 14px;background:${s.color}0D;border-radius:8px;line-height:1.65">→ ${s.action}</div>
+    </div>`).join('');
 }
 function generateTips(eng,grow,cont,conv,consist){
   const tips=[];
